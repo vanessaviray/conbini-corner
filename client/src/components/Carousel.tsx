@@ -41,17 +41,21 @@ export function Carousel({ images }: CarouselProps) {
       </div>
       <div className="row carousel-controls">
         <button onClick={prevImage}>
-          <IoIosArrowBack />
+          <IoIosArrowBack color="B0B0B0" />
         </button>
         <div className="row dots">
           {images.map((_, index) => (
             <span key={index} onClick={() => handleDots(index)}>
-              {index === activeIndex ? <GoDotFill /> : <GoDot />}
+              {index === activeIndex ? (
+                <GoDotFill color="B0B0B0" />
+              ) : (
+                <GoDot color="B0B0B0" />
+              )}
             </span>
           ))}
         </div>
         <button onClick={nextImage}>
-          <IoIosArrowForward />
+          <IoIosArrowForward color="B0B0B0" />
         </button>
       </div>
     </>
