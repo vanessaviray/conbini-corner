@@ -179,8 +179,8 @@ insert into "products"
     'Kikkoman Unagi Eel Sushi Sauce',
     599,
     'For those disinterested in eel, forget the name—you''ll want this thick, sweet, and savory sauce for just about everything else. Sandwich dressing, marinade, and all manner of Japanese dishes are universally improved by its presence. Missing Japan? Unagi shortages do occur, but if you have access to eel (it''s available frozen!) Kikkoman''s Unagi Tare is an absolute necessity for the complete dish.',
-    'images/pantry/condiments/kikkoman-unagi-eel-sushi-sauce.webp',
-    'images/pantry/condiments/kikkoman-unagi-eel-sushi-sauce_2.webp',
+    '/images/pantry/condiments/kikkoman-unagi-eel-sushi-sauce.webp',
+    '/images/pantry/condiments/kikkoman-unagi-eel-sushi-sauce_2.webp',
     true
   );
 
@@ -193,8 +193,8 @@ insert into "products"
     'Maeda-en Matcha Green Tea Powder',
     1199,
     'This green tea powder is designed to be used in recipes. Compared to ceremonial matcha that one would drink, culinary-quality matcha is punchier: more bitter, astringent, and overall better suited for mixing with other flavors and ingredients. If you''ve got visions of green tea pastries dancing through your head, this is the matcha powder for you.',
-    'images/pantry/packaged-foods/maeda-en-match-green-tea-powder.webp',
-    'images/pantry/packaged-foods/maeda-en-match-green-tea-powder_2.jpg/',
+    '/images/pantry/packaged-foods/maeda-en-match-green-tea-powder.webp',
+    '/images/pantry/packaged-foods/maeda-en-match-green-tea-powder_2.jpg/',
     true
   ), (
     'Pantry',
@@ -202,8 +202,8 @@ insert into "products"
     'Iwate Sanma Kabayaki',
     399,
     'Enjoy sanma kabayaki easily at home! This Iwate-caught sanma (saury fish) is coated in a sweet and savory kabayaki sauce, broiled, and canned to preserve flavor. Best served over hot rice, it''s a classic Japanese comfort meal for a reason! It''s a great source of healthy fats and delicious umami goodness.',
-    'images/pantry/packaged-foods/iwate-sanma-kabayaki.webp',
-    'images/pantry/packaged-foods/iwate-sanma-kabayaki_2.webp',
+    '/images/pantry/packaged-foods/iwate-sanma-kabayaki.webp',
+    '/images/pantry/packaged-foods/iwate-sanma-kabayaki_2.webp',
     false
   ), (
     'Pantry',
@@ -211,8 +211,8 @@ insert into "products"
     'House Curry Sauce with Vegetables: Hot',
     599,
     'In Japan, it''s popular to eat hot and spicy foods during the summer to cool down, so many people eat curry! Savory, rich, and aromatic, Japanese curry is a favorite dish throughout the country. This thick curry has potatoes, carrots, and of course, hot spices - perfect for the summer heat (or as a warm hearty dish during the winter)! Ready in minutes, enjoy it with rice, pasta, or bread!',
-    'images/pantry/packaged-foods/house-curry-sauce-with-vegetables.webp',
-    'images/pantry/packaged-foods/house-curry-sauce-with-vegetables_2.web',
+    '/images/pantry/packaged-foods/house-curry-sauce-with-vegetables.webp',
+    '/images/pantry/packaged-foods/house-curry-sauce-with-vegetables_2.web',
     true
   );
 
@@ -225,8 +225,8 @@ insert into "products"
     'Sangaria Ramune Soda: Lychee',
     399,
     'Ramune is a favorite soda in Japan for a reason: the drink is bursting with fruity flavor, is made with real sugar, and the packaging can''t be beaten. To drink this marble soda, use the stopper to push down on the marble, which shoots into the neck of the bottle. It bounces up and down as you drink, making a fun tinkling sound. We hope the taste of lychee has you feeling tropical vibes!',
-    'images/drinks/bottled-drinks/sangaria-ramune-soda-lychee.webp',
-    'images/drinks/bottled-drinks/sangaria-ramune-soda-lychee_2.webp',
+    '/images/drinks/bottled-drinks/sangaria-ramune-soda-lychee.webp',
+    '/images/drinks/bottled-drinks/sangaria-ramune-soda-lychee_2.webp',
     true
   ), (
     'Drinks',
@@ -234,8 +234,8 @@ insert into "products"
     'Kuze Fuku Strawberry Mixer',
     1299,
     'Strawberry lovers rejoice! This strawberry mixer is a best-selling product in Japan and is beloved by all ages! Whether crafting the nostalgic Japanese summertime taste of homemade strawberry milk (1:2 strawberry mixer to milk ratio), topping ice cream, spreading it on scones, or mixing drinks, you''ll surely love this berry much!',
-    'images/drinks/bottled-drinks/kuze-fuku-strawberry-mixer.webp',
-    'images/drinks/bottled-drinks/kuze-fuku-strawberry-mixer_2.webp',
+    '/images/drinks/bottled-drinks/kuze-fuku-strawberry-mixer.webp',
+    '/images/drinks/bottled-drinks/kuze-fuku-strawberry-mixer_2.webp',
     false
   ), (
     'Drinks',
@@ -243,8 +243,8 @@ insert into "products"
     'Hatasoda Ramune: Peach',
     349,
     'Want to skip the struggle of getting the Ramune marble into the bottle? This Ramune soda from Hatasoda offers the Ramune flavor you love without the mess of popping the marble into the bottle. With each refreshing sip, you''ll find a juicy peach taste. Pack this in your lunch or drink one whenever you''re craving a Japanese soda.',
-    'images/drinks/bottled-drinks/hatasoda-ramune-peach.webp',
-    'images/drinks/bottled-drinks/hatasoda-ramune-peach_2.webp',
+    '/images/drinks/bottled-drinks/hatasoda-ramune-peach.webp',
+    '/images/drinks/bottled-drinks/hatasoda-ramune-peach_2.webp',
     false
   ), (
     'Drinks',
@@ -252,8 +252,8 @@ insert into "products"
     'Otsuka Pocari Sweat Sports Drink',
     449,
     'While those new to Pocari Sweat may find the name odd, this Japanese sports drink is totally iconic! From convenience stores to animes, Pocari Sweat is all over Japan! So, what makes this Japanese beverage so popular? Its balance of ions (electrolytes)! It mimics the electrolyte concentration in the human body, so it can quickly replenish what your body needs after perspiration. Non-carbonated and having a slightly sweet and citrusy taste, this is the perfect refreshing drink!',
-    'images/drinks/bottled-drinks/otsuka-pocari-sweat-sports-drink.webp',
-    'images/drinks/bottled-drinks/otsuka-pocari-sweat-sports-drink_2.webp',
+    '/images/drinks/bottled-drinks/otsuka-pocari-sweat-sports-drink.webp',
+    '/images/drinks/bottled-drinks/otsuka-pocari-sweat-sports-drink_2.webp',
     true
   );
 
@@ -266,8 +266,8 @@ insert into "products"
     'Sangaria Strawberry Milk Drink',
     349,
     'From the folks who brought you the iconic Sangaria royal milk tea, comes another spectacular sip: strawberry milk! To all the haters out there, don''t worry, this isn''t that watery, artificial tasting, too sweet strawberry milk you had when you were a kid. Rather it''s a beautiful creamy blended matrimony between strawberry and real milk. The perfect convenient canned beverage for those who can’t get enough strawberry!',
-    'images/drinks/canned-drinks/sangaria-strawberry-milk-drink.webp',
-    'images/drinks/canned-drinks/sangaria-strawberry-milk-drink_2.webp',
+    '/images/drinks/canned-drinks/sangaria-strawberry-milk-drink.webp',
+    '/images/drinks/canned-drinks/sangaria-strawberry-milk-drink_2.webp',
     true
   ), (
     'Drinks',
@@ -275,8 +275,8 @@ insert into "products"
     'Kimino Sparkling Water: Yuzu Japanese Citrus',
     349,
     'Yuzu is the most popular citrus flavor in Japan. This variation of canned sparkling water from Kimino contains the juice of an entire yuzu fruit, hand-picked on the island of Shikoku. With just two ingredients and no added sweeteners, it''s refreshing without being sweet.',
-    'images/drinks/canned-drinks/',
-    'images/drinks/canned-drinks/',
+    '/images/drinks/canned-drinks/',
+    '/images/drinks/canned-drinks/',
     false
   ), (
     'Drinks',
@@ -284,8 +284,8 @@ insert into "products"
     'Sangaria Royal Milk Tea',
     349,
     'You don''t need a palace to enjoy this Royal Milk Tea. Made with top-shelf black tea leaf, real sugar and 25% real milk, it''s like chai without the spice. This gently sweet beverage comes in a beautiful, regal looking can, has a caffeine content somewhere between green tea and coffee and is best served cold.',
-    'images/drinks/canned-drinks/sangaria-royal-milk-tea.webp',
-    'images/drinks/canned-drinks/sangaria-royal-milk-tea_2.webp',
+    '/images/drinks/canned-drinks/sangaria-royal-milk-tea.webp',
+    '/images/drinks/canned-drinks/sangaria-royal-milk-tea_2.webp',
     true
   ), (
     'Drinks',
@@ -293,8 +293,8 @@ insert into "products"
     'Choya Sparkling Ume Drink',
     349,
     'This sparkling ume (plum) drink was developed as a non-alcoholic alternative to ume shu plum liquor but has become a delicious and well-regarded Japanese beverage in its own right. Made with all-natural and simple ingredients like real ume fruit juice, each sip is tart, refreshing, and memorable!',
-    'images/drinks/canned-drinks/choya-sparkling-ume-drink.webp',
-    'images/drinks/canned-drinks/choya-sparkling-ume-drink_2.webp',
+    '/images/drinks/canned-drinks/choya-sparkling-ume-drink.webp',
+    '/images/drinks/canned-drinks/choya-sparkling-ume-drink_2.webp',
     false
   );
 

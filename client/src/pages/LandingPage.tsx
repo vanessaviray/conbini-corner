@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { readFeaturedProductsPreview } from '../lib/read.ts';
 import { Product } from '../lib/read.ts';
 import { ProductCard } from '../components/ProductCard.tsx';
+import { Carousel } from '../components/Carousel.tsx';
 import '../css/ProductCard.css';
+import { images } from '../lib/data.ts';
 
 export function LandingPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,7 +44,9 @@ export function LandingPage() {
         <div className="card-one">
           <img src="/images/instant-noodles.webp" />
         </div>
-        <div className="carousel"></div>
+        <div className="carousel">
+          <Carousel images={images} />
+        </div>
         <div className="cards-two-and-three">
           <div className="card-two">
             <img src="/images/drinks.jpg" />
@@ -58,9 +62,7 @@ export function LandingPage() {
       </div>
       <div className="products-container">
         {products?.map((product) => (
-          <div key={product.productId}>
-            <ProductCard product={product} />
-          </div>
+          <ProductCard key={product.productId} product={product} />
         ))}
       </div>
     </div>
