@@ -62,7 +62,9 @@ export function LandingPage() {
       </div>
       <div className="products-container">
         {products?.map((product) => (
-          <ProductCard key={product.productId} product={product} />
+          <div key={product.productId}>
+            <ProductCard product={product} />
+          </div>
         ))}
       </div>
     </div>
