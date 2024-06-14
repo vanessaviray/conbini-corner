@@ -22,15 +22,31 @@ app.use(express.static(reactStaticDir));
 app.use(express.static(uploadsStaticDir));
 app.use(express.json());
 
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello, World!' });
-});
+// app.get('/api/hello', (req, res) => {
+//   res.json({ message: 'Hello, World!' });
+// });
 
 /*
  * Handles paths that aren't handled by any other route handler.
  * It responds with `index.html` to support page refreshes with React Router.
  * This must be the _last_ route, just before errorMiddleware.
  */
+
+app.get('/api/featuredProductsPreview', async (req, res, next) => {
+  try {
+    const sql = `
+      select "name", "price", "defaultImageUrl"
+      from "products"
+      where "featuredProduct" = true
+      limit 10
+    `;
+    const result = await db.query(sql);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
 app.use(errorMiddleware);
