@@ -57,7 +57,9 @@ export function DesktopNavbar() {
                   onClick={() => {
                     setIsSnacksOpen(!isSnacksOpen);
                   }}>
-                  <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                  <div className="down-arrow-icon">
+                    <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                  </div>
                 </div>
                 <Popup
                   isOpen={isSnacksOpen}
@@ -81,7 +83,9 @@ export function DesktopNavbar() {
                   onClick={() => {
                     setIsPantryOpen(!isPantryOpen);
                   }}>
-                  <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                  <div className="down-arrow-icon">
+                    <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                  </div>
                 </div>
                 <Popup
                   isOpen={isPantryOpen}
@@ -105,7 +109,9 @@ export function DesktopNavbar() {
                   onClick={() => {
                     setIsDrinksOpen(!isDrinksOpen);
                   }}>
-                  <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                  <div className="down-arrow-icon">
+                    <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                  </div>
                 </div>
                 <Popup
                   isOpen={isDrinksOpen}

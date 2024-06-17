@@ -3,7 +3,6 @@
   align-items: center;
   background-color: #f6f4f0;
   height: 50px;
-  margin-bottom: 14px;
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -23,7 +22,7 @@
 .categories {
   display: flex;
   justify-content: space-between;
-  height: 30px;
+  height: 50px;
 }
 
 .snacks-category,
@@ -32,6 +31,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 100%;
 }
 
 .snacks-category > button,
@@ -41,14 +41,9 @@
   margin-right: 2px;
   font-size: 16px;
   font-weight: 500;
+  height: 100%;
 }
 
-@media screen and (width >= 768px) {
-  .navbar-contents {
-    align-items: center;
-  }
-
-  .categories {
-    justify-content: flex-start;
-  }
+.search {
+  margin-top: 0;
 }

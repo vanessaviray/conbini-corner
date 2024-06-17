@@ -53,3 +53,13 @@
   outline-style: none;
   margin-bottom: 20px;
 }
+
+.down-arrow-icon:hover {
+  cursor: pointer;
+}
+
+.snacks-category > button:hover,
+.pantry-category > button:hover,
+.drinks-category > button:hover {
+  color: #cb1111;
+}

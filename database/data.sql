@@ -84,7 +84,7 @@ insert into "products"
     320,
     'Calbee Jagarico Cheese is a long-selling and one of the most popular Japanese snacks made by Calbee. The classic Jagarico potato sticks are flavored with rich cheddar and camembert cheese. These crispy, crunchy sticks from Japan will wow you with their rich cheesy and fried potato flavor. The potato sticks come in a convenient mobile cup so you can carry it around and snack at anytime.',
     '/images/snacks/chips/calbee-cheese-jagarico.jpg',
-    '/images/snacks/chips/calbee-cheese-jagarico_2.jpg',
+    '/images/snacks/chips/calbee-cheese-jagarico_2.webp',
     true
   );
 
@@ -285,7 +285,7 @@ insert into "products"
     349,
     'You don''t need a palace to enjoy this Royal Milk Tea. Made with top-shelf black tea leaf, real sugar and 25% real milk, it''s like chai without the spice. This gently sweet beverage comes in a beautiful, regal looking can, has a caffeine content somewhere between green tea and coffee and is best served cold.',
     '/images/drinks/canned-drinks/sangaria-royal-milk-tea.webp',
-    '/images/drinks/canned-drinks/sangaria-royal-milk-tea_2.webp',
+    '/images/drinks/canned-drinks/sangaria-royal-milk-tea_2.jpg',
     true
   ), (
     'Drinks',
