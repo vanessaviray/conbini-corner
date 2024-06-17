@@ -23,6 +23,7 @@
 .categories {
   display: flex;
   justify-content: space-between;
+  height: 30px;
 }
 
 .snacks-category,

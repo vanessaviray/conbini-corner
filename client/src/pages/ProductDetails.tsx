@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Product, readProduct } from '../lib/read';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import '../css/App.css';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
+import '../css/ProductDetails.css';
+import { toDollars } from '../lib/to-dollars';
 
 export function ProductDetails() {
   const [product, setProduct] = useState<Product>();
@@ -42,18 +44,23 @@ export function ProductDetails() {
 
   return (
     <div className="container">
-      <div className="breadcrumbs row items-center">
-        <button>Home</button>
+      <div className="breadcrumbs row">
+        <Link to={'/'}>
+          <button>Home</button>
+        </Link>
+        <MdOutlineKeyboardArrowRight />
         <button>{category}</button>
         <MdOutlineKeyboardArrowRight />
         <button>{subcategory}</button>
         <MdOutlineKeyboardArrowRight />
-        <button>{name}</button>
+        <button className="name-breadcrumb">{name}</button>
       </div>
-      <img src={defaultImageUrl} />
-      <p>{subcategory}</p>
-      <p>{name}</p>
-      <p>{price}</p>
+      <div className="large-img-wrapper">
+        <img className="defaultImg" src={defaultImageUrl} />
+      </div>
+      <p className="subcategory">{subcategory}</p>
+      <p className="name">{name}</p>
+      <p>{toDollars(price)}</p>
       <div className="buttons row">
         <div className="quantity-container row">
           <button>+</button>
@@ -62,9 +69,9 @@ export function ProductDetails() {
           </div>
           <button>-</button>
         </div>
-        <button>ADD TO CART</button>
+        <button className="add-to-cart-btn">ADD TO CART</button>
       </div>
-      <p>Description</p>
+      <p className="description-heading">Description</p>
       <p>{description}</p>
     </div>
   );
