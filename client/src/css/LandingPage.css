@@ -4,6 +4,8 @@
 
 .hero-section {
   height: 350px;
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 .card-one {
@@ -78,6 +80,11 @@
 @media screen and (width >= 768px) {
   .landing-page {
     max-width: 1200px;
+  }
+
+  .hero-section {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 
   .section-heading {

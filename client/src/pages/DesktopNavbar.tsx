@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { SearchBar } from '../components/SearchBar';
 import { LuLollipop } from 'react-icons/lu';
 import { TbBowlChopsticks } from 'react-icons/tb';
@@ -9,12 +9,31 @@ import { RiAccountCircleLine } from 'react-icons/ri';
 import '../css/DesktopNavbar.css';
 import '../css/App.css';
 import { Popup } from '../components/Popup';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export function DesktopNavbar() {
   const [isSnacksOpen, setIsSnacksOpen] = useState(false);
   const [isPantryOpen, setIsPantryOpen] = useState(false);
   const [isDrinksOpen, setIsDrinksOpen] = useState(false);
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [windowSize]);
 
   const snacksPosition = useRef<HTMLDivElement>(null);
   const pantryPosition = useRef<HTMLDivElement>(null);
@@ -25,16 +44,21 @@ export function DesktopNavbar() {
       <div className="navbar-wrapper">
         <div className="navbar-contents row">
           <div className="logo-categories row items-center">
-            <p>COMBINI CORNER</p>
-            <div className="categories row">
+            <Link to={'/'}>
+              <p>COMBINI CORNER</p>
+            </Link>
+            <div className="nav-categories row">
               <div
-                className="snacks-category row m-2 items-center"
-                ref={snacksPosition}
-                onClick={() => {
-                  setIsSnacksOpen(!isSnacksOpen);
-                }}>
+                className="snacks-category row items-center"
+                ref={snacksPosition}>
                 <LuLollipop size="1.25rem" />
                 <button>Snacks</button>
+                <div
+                  onClick={() => {
+                    setIsSnacksOpen(!isSnacksOpen);
+                  }}>
+                  <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                </div>
                 <Popup
                   isOpen={isSnacksOpen}
                   positionTo={snacksPosition.current}
@@ -47,16 +71,18 @@ export function DesktopNavbar() {
                     <li>Chips</li>
                   </ul>
                 </Popup>
-                <MdOutlineKeyboardArrowDown color="#B0B0B0" />
               </div>
               <div
-                className="pantry-category row m-2 items-center"
-                ref={pantryPosition}
-                onClick={() => {
-                  setIsPantryOpen(!isPantryOpen);
-                }}>
+                className="pantry-category row items-center"
+                ref={pantryPosition}>
                 <TbBowlChopsticks size="1.25rem" />
                 <button>Pantry</button>
+                <div
+                  onClick={() => {
+                    setIsPantryOpen(!isPantryOpen);
+                  }}>
+                  <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                </div>
                 <Popup
                   isOpen={isPantryOpen}
                   positionTo={pantryPosition.current}
@@ -69,16 +95,18 @@ export function DesktopNavbar() {
                     <li>Condiments</li>
                   </ul>
                 </Popup>
-                <MdOutlineKeyboardArrowDown color="#B0B0B0" />
               </div>
               <div
-                className="drinks-category row m-2 items-center"
-                ref={drinksPosition}
-                onClick={() => {
-                  setIsDrinksOpen(!isDrinksOpen);
-                }}>
+                className="drinks-category row items-center"
+                ref={drinksPosition}>
                 <RiDrinks2Line size="1.25rem" />
                 <button>Drinks</button>
+                <div
+                  onClick={() => {
+                    setIsDrinksOpen(!isDrinksOpen);
+                  }}>
+                  <MdOutlineKeyboardArrowDown color="#B0B0B0" />
+                </div>
                 <Popup
                   isOpen={isDrinksOpen}
                   positionTo={drinksPosition.current}
@@ -91,7 +119,6 @@ export function DesktopNavbar() {
                     <li>Chips</li>
                   </ul>
                 </Popup>
-                <MdOutlineKeyboardArrowDown color="#B0B0B0" />
               </div>
             </div>
           </div>
