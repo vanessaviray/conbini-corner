@@ -5,6 +5,8 @@ import '../css/App.css';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import '../css/ProductDetails.css';
 import { toDollars } from '../lib/to-dollars';
+import { LuPlus } from 'react-icons/lu';
+import { LuMinus } from 'react-icons/lu';
 
 export function ProductDetails() {
   const [product, setProduct] = useState<Product>();
@@ -39,40 +41,71 @@ export function ProductDetails() {
     );
   }
 
-  const { category, subcategory, name, price, description, defaultImageUrl } =
-    product;
+  const {
+    category,
+    subcategory,
+    name,
+    price,
+    description,
+    defaultImageUrl,
+    secondaryImageUrl,
+  } = product;
 
   return (
     <div className="container">
       <div className="breadcrumbs row">
         <Link to={'/'}>
-          <button>Home</button>
+          <button className="breadcrumb-button">Home</button>
         </Link>
-        <MdOutlineKeyboardArrowRight />
-        <button>{category}</button>
-        <MdOutlineKeyboardArrowRight />
-        <button>{subcategory}</button>
-        <MdOutlineKeyboardArrowRight />
+        <div className="breadcrumb-arrow">
+          <MdOutlineKeyboardArrowRight />
+        </div>
+        <button className="breadcrumb-button">{category}</button>
+        <div className="breadcrumb-arrow">
+          <MdOutlineKeyboardArrowRight />
+        </div>
+        <button className="breadcrumb-button">{subcategory}</button>
+        <div className="breadcrumb-arrow">
+          <MdOutlineKeyboardArrowRight />
+        </div>
         <button className="name-breadcrumb">{name}</button>
       </div>
-      <div className="large-img-wrapper">
-        <img className="defaultImg" src={defaultImageUrl} />
-      </div>
-      <p className="subcategory">{subcategory}</p>
-      <p className="name">{name}</p>
-      <p>{toDollars(price)}</p>
-      <div className="buttons row">
-        <div className="quantity-container row">
-          <button>+</button>
-          <div className="number-container">
-            <p>1</p>
-          </div>
-          <button>-</button>
+      <div className="image-and-text">
+        <div className="large-img-wrapper">
+          <img className="defaultImg" src={defaultImageUrl} />
         </div>
-        <button className="add-to-cart-btn">ADD TO CART</button>
+        {window.innerWidth > 768 && (
+          <div className="small-images">
+            <div className="small-img-wrapper">
+              <img src={defaultImageUrl} />
+            </div>
+            <div className="small-img-wrapper">
+              <img src={secondaryImageUrl} />
+            </div>
+          </div>
+        )}
+        <div className="text-details">
+          <p className="subcategory">{subcategory}</p>
+          <p className="name">{name}</p>
+          <p className="price">{toDollars(price)}</p>
+          <div className="buttons row">
+            <div className="quantity-container row">
+              <div className="minus-icon">
+                <LuMinus />
+              </div>
+              <div className="number-container">
+                <p>1</p>
+              </div>
+              <div className="plus-icon">
+                <LuPlus />
+              </div>
+            </div>
+            <button className="add-to-cart-btn">ADD TO CART</button>
+          </div>
+          <p className="description-heading">Description</p>
+          <p className="description">{description}</p>
+        </div>
       </div>
-      <p className="description-heading">Description</p>
-      <p>{description}</p>
     </div>
   );
 }
