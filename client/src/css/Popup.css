@@ -14,6 +14,12 @@ ul {
 li {
   padding-top: 5px;
   padding-bottom: 5px;
+  width: 100%;
+}
+
+li:hover {
+  color: #cb1111;
+  cursor: pointer;
 }
 
 .backdrop {

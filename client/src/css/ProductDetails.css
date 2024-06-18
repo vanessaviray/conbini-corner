@@ -185,5 +185,10 @@
   .minus-icon:hover,
   .plus-icon:hover {
     color: #cb1111;
+    cursor: pointer;
   }
+}
+
+.add-to-cart-btn:hover {
+  background-color: #de3a3a;
 }
