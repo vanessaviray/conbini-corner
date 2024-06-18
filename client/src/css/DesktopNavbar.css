@@ -17,6 +17,16 @@
   height: 80px;
 }
 
+.logo-wrapper {
+  height: 30px;
+  margin-right: 35px;
+}
+
+.logo-wrapper > img {
+  object-fit: contain;
+  height: 100%;
+}
+
 .nav-categories {
   height: 80px;
 }

@@ -42,17 +42,17 @@ export function LandingPage() {
     <div className="landing-page">
       <div className="hero-section row">
         <div className="card-one">
-          <img src="/images/instant-noodles.webp" />
+          <img src="/images/marketing/card-1.png" />
         </div>
         <div className="carousel">
           <Carousel images={images} />
         </div>
         <div className="cards-two-and-three">
           <div className="card-two">
-            <img src="/images/drinks.jpg" />
+            <img src="/images/marketing/card-2.png" />
           </div>
           <div className="card-three">
-            <img className="object-cover" src="/images/candy.webp" />
+            <img className="object-cover" src="/images/marketing/card-3.png" />
           </div>
         </div>
       </div>

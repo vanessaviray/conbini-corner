@@ -12,6 +12,7 @@ export function ProductDetails() {
   const [product, setProduct] = useState<Product>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>();
+  const [displayedImageUrl, setDisplayedImageUrl] = useState<string>('');
 
   const { productId } = useParams();
 
@@ -20,6 +21,7 @@ export function ProductDetails() {
       try {
         const product = await readProduct(productId);
         setProduct(product);
+        setDisplayedImageUrl(product.defaultImageUrl);
       } catch (err) {
         console.error('read error', err);
         setError(err);
@@ -72,14 +74,18 @@ export function ProductDetails() {
       </div>
       <div className="image-and-text">
         <div className="large-img-wrapper">
-          <img className="defaultImg" src={defaultImageUrl} />
+          <img className="defaultImg" src={displayedImageUrl} />
         </div>
         {window.innerWidth > 768 && (
           <div className="small-images">
-            <div className="small-img-wrapper">
+            <div
+              className="small-img-wrapper"
+              onClick={() => setDisplayedImageUrl(defaultImageUrl)}>
               <img src={defaultImageUrl} />
             </div>
-            <div className="small-img-wrapper">
+            <div
+              className="small-img-wrapper"
+              onClick={() => setDisplayedImageUrl(secondaryImageUrl)}>
               <img src={secondaryImageUrl} />
             </div>
           </div>

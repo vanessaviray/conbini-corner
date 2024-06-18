@@ -125,7 +125,7 @@ insert into "products"
     399,
     'Chewy, rich, milky, and delicious, this Milkita Creamy Candy will be your new snacking obsession! Made with real milk, expect a creamy strawberry milkshake-esque flavor as you indulge in this candy. These bite-sized candies are deliciously chewy for an even more fun eating experience.',
     '/images/snacks/candy/milkita-strawberry.webp',
-    '/images/snacks/candy/milkita-strawberry_2.webp',
+    '/images/snacks/candy/milkita-strawberry_2.jpg',
     true
   );
 

@@ -97,4 +97,8 @@
     width: 184px;
     height: 50px;
   }
+
+  .add-to-cart-button:hover {
+    background-color: #de3a3a;
+  }
 }

@@ -45,7 +45,12 @@ export function DesktopNavbar() {
         <div className="navbar-contents row">
           <div className="logo-categories row items-center">
             <Link to={'/'}>
-              <p>COMBINI CORNER</p>
+              <div className="logo-wrapper">
+                <img
+                  src="/images/marketing/conbini-corner-logo.png"
+                  alt="conbini corner logo"
+                />
+              </div>
             </Link>
             <div className="nav-categories row">
               <div
