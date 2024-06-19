@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { readFeaturedProductsPreview } from '../lib/read.ts';
-import { Product } from '../lib/read.ts';
+import { Product } from '../lib/data.ts';
 import { ProductCard } from '../components/ProductCard.tsx';
 import { Carousel } from '../components/Carousel.tsx';
 import '../css/ProductCard.css';

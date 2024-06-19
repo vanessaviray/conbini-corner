@@ -69,6 +69,53 @@ app.get('/api/products/:productId', async (req, res, next) => {
   }
 });
 
+app.post('/api/shoppingCartItems', async (req, res, next) => {
+  try {
+    const { quantity, productId } = req.body;
+    if (!quantity || !productId) {
+      throw new ClientError(400, 'task and isCompleted are required');
+    }
+    const sql = `
+      insert into "shoppingCartItems" ("userId", "productId", "quantity")
+        values (1, $1, $2)
+        returning *
+    `;
+    const params = [productId, quantity];
+    const result = await db.query(sql, params);
+    const item = result.rows[0];
+    res.status(201).json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.put('/api/shoppingCartItems', async (req, res, next) => {
+  try {
+    const { quantity, productId } = req.body;
+    if (!quantity || !productId) {
+      throw new ClientError(
+        400,
+        'quantity, productId, and userId are required'
+      );
+    }
+    const sql = `
+      update "shoppingCartItems"
+      set "quantity" = $1
+      where "productId" = $2
+      returning *
+    `;
+    const params = [quantity, productId];
+    const result = await db.query(sql, params);
+    const [item] = result.rows;
+    if (!item) {
+      throw new ClientError(404, `Item with productId ${productId} not found`);
+    }
+    res.status(200).json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
 app.use(errorMiddleware);

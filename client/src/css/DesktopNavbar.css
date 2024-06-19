@@ -73,3 +73,23 @@
 .drinks-category > button:hover {
   color: #cb1111;
 }
+
+.shopping-cart-icon {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  color: white;
+  background-color: #cb1111;
+}

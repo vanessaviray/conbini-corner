@@ -3,6 +3,18 @@ export type Image = {
   alt: string;
 };
 
+export type Product = {
+  productId: number;
+  category: string;
+  subcategory: string;
+  name: string;
+  price: number;
+  description: string;
+  defaultImageUrl: string;
+  secondaryImageUrl: string;
+  featuredProduct: boolean;
+};
+
 export const images: Image[] = [
   {
     src: '/images/carousel/slide-1.png',

@@ -298,12 +298,7 @@ insert into "products"
     false
   );
 
-insert into "shoppingCarts"
-  ("userId")
-  values
-    (1);
-
 insert into "shoppingCartItems"
-  ("cartId", "productId", "quantity")
+  ("userId", "productId", "quantity")
   values
     (1, 1, 1);
