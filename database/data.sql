@@ -297,8 +297,3 @@ insert into "products"
     '/images/drinks/canned-drinks/choya-sparkling-ume-drink_2.webp',
     false
   );
-
-insert into "shoppingCartItems"
-  ("userId", "productId", "quantity")
-  values
-    (1, 1, 1);

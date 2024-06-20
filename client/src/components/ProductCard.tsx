@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { toDollars } from '../lib/functions.ts';
-import { Product } from '../lib/data.ts';
+import { Item, Product } from '../lib/data.ts';
 import { useContext } from 'react';
 import { CartContext } from './CartContext.tsx';
-import { Item, insertItem, updateItem } from '../lib/read.ts';
+import { insertItem, updateItem } from '../lib/read.ts';
 import '../css/LandingPage.css';
 
 type Props = {
@@ -18,8 +18,8 @@ export function ProductCard({ product }: Props) {
     if (!product) throw new Error('product is undefined');
     try {
       const newItem: Item = {
-        productId: product.productId,
         quantity: 1,
+        ...product,
       };
 
       let itemExists = false;

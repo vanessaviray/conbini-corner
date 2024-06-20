@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Item } from '../lib/read.ts';
+import { Item } from '../lib/data.ts';
 
 export type CartValue = {
   cart: Item[];

@@ -7,21 +7,34 @@ import { useEffect, useState } from 'react';
 import { MobileNavbar } from './pages/MobileNavbar.tsx';
 import { type CartValue, CartContext } from './components/CartContext.tsx';
 import { ShoppingCart } from './pages/ShoppingCart.tsx';
-import { Item } from './lib/read.ts';
+import { Item } from './lib/data.ts';
+import { readInitialCart } from './lib/read.ts';
 
 export default function App() {
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
   const [cartContext, setCartContext] = useState<Item[]>([]);
 
-  function updateMedia() {
-    setMobile(window.innerWidth < 768);
-  }
+  useEffect(() => {
+    async function loadInitialCart() {
+      try {
+        const initialCart = await readInitialCart();
+        setCartContext(initialCart);
+      } catch (err) {
+        console.error('read error', err);
+      }
+    }
+    loadInitialCart();
+  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', updateMedia);
     return () => window.removeEventListener('resize', updateMedia);
   }),
     [];
+
+  function updateMedia() {
+    setMobile(window.innerWidth < 768);
+  }
 
   function addToCart(item: Item) {
     const updatedCart = [...cartContext, item];

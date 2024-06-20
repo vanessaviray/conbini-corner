@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import { Product } from '../lib/data';
-import { Item, insertItem, readProduct, updateItem } from '../lib/read';
+import { Product, Item } from '../lib/data';
+import { insertItem, readProduct, updateItem } from '../lib/read';
 import { useParams, Link } from 'react-router-dom';
 import '../css/App.css';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
@@ -64,8 +64,8 @@ export function ProductDetails() {
     if (!product) throw new Error('product is undefined');
     try {
       const newItem: Item = {
-        productId: product.productId,
         quantity,
+        ...product,
       };
 
       let itemExists = false;

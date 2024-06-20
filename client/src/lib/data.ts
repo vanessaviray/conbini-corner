@@ -15,6 +15,10 @@ export type Product = {
   featuredProduct: boolean;
 };
 
+export type Item = Product & {
+  quantity: number;
+};
+
 export const images: Image[] = [
   {
     src: '/images/carousel/slide-1.png',
