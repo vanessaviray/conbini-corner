@@ -93,10 +93,7 @@ app.put('/api/shoppingCartItems', async (req, res, next) => {
   try {
     const { quantity, productId } = req.body;
     if (!quantity || !productId) {
-      throw new ClientError(
-        400,
-        'quantity, productId, and userId are required'
-      );
+      throw new ClientError(400, 'quantity and productId are required');
     }
     const sql = `
       update "shoppingCartItems"
@@ -104,6 +101,7 @@ app.put('/api/shoppingCartItems', async (req, res, next) => {
       where "productId" = $2
       returning *
     `;
+
     const params = [quantity, productId];
     const result = await db.query(sql, params);
     const [item] = result.rows;
