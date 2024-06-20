@@ -48,10 +48,18 @@ export default function App() {
     setCartContext(updatedCart);
   }
 
+  function removeFromCart(item: Item) {
+    const updatedCart = cartContext.filter(
+      (cartItem) => cartItem.productId !== item.productId
+    );
+    setCartContext(updatedCart);
+  }
+
   const cartValue: CartValue = {
     cart: cartContext,
     addToCart: addToCart,
     updateCart: updateCart,
+    removeFromCart: removeFromCart,
   };
 
   return (

@@ -44,15 +44,11 @@ export async function updateItem(item: Item): Promise<Item> {
   return await res.json();
 }
 
-export async function deleteItem(item: Item) {
+export async function deleteItem(productId: number): Promise<void> {
   const req = {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(item),
   };
-  const res = await fetch('/api/shoppingCartItems/:productId', req);
+  const res = await fetch(`/api/shoppingCartItems/${productId}`, req);
   if (!res.ok) throw new Error(`fetch Error ${res.status}`);
   return await res.json();
 }

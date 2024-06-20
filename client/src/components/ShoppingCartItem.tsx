@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { readProduct } from '../lib/read';
+import { useContext, useEffect, useState } from 'react';
+import { deleteItem, readProduct } from '../lib/read';
 import { Product } from '../lib/data';
 import '../css/ShoppingCartItem.css';
 import { toDollars } from '../lib/functions';
 import { LuMinus, LuPlus } from 'react-icons/lu';
+import { CartContext } from './CartContext';
 
 type Props = {
   productId: number;
@@ -11,6 +12,8 @@ type Props = {
 };
 
 export function ShoppingCartItem({ productId, quantity }: Props) {
+  const { removeFromCart } = useContext(CartContext);
+
   const [product, setProduct] = useState<Product>();
 
   async function loadProduct(productId: number) {
@@ -28,6 +31,12 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
     }
   }, [productId]);
 
+  function handleRemoveItem(product) {
+    if (!product?.productId) throw new Error('Should never happen');
+    deleteItem(product.productId);
+    removeFromCart(product);
+  }
+
   if (!product) {
     return <div>Your shopping cart is empty</div>;
   }
@@ -42,7 +51,11 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
           <div className="name-price-remove">
             <p className="item-name">{product.name}</p>
             <p className="item-price">{toDollars(product.price)}</p>
-            <button className="remove-item-button">Remove</button>
+            <button
+              className="remove-item-button"
+              onClick={() => handleRemoveItem(product)}>
+              Remove
+            </button>
           </div>
           <div className="quantity-button-subtotal">
             <p className="quantity-label">Quantity</p>
