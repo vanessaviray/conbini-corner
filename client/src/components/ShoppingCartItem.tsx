@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import { deleteItem, readProduct } from '../lib/read';
-import { Product } from '../lib/data';
+import { deleteItem, readProduct, updateItem } from '../lib/read';
+import { Product, Item } from '../lib/data';
 import '../css/ShoppingCartItem.css';
 import { toDollars } from '../lib/functions';
 import { LuMinus, LuPlus } from 'react-icons/lu';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export function ShoppingCartItem({ productId, quantity }: Props) {
-  const { removeFromCart } = useContext(CartContext);
+  const { removeFromCart, updateCart } = useContext(CartContext);
 
   const [product, setProduct] = useState<Product>();
 
@@ -35,6 +35,39 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
     if (!product?.productId) throw new Error('Should never happen');
     deleteItem(product.productId);
     removeFromCart(product);
+  }
+
+  async function handleIncrement(product) {
+    try {
+      quantity += 1;
+      const newItem: Item = {
+        quantity,
+        ...product,
+      };
+      updateCart(newItem);
+      await updateItem(newItem);
+    } catch (err) {
+      console.error('Error updating item in cart:', err);
+    }
+  }
+
+  async function handleDecrement(product) {
+    try {
+      quantity -= 1;
+      if (quantity === 0) {
+        deleteItem(product.productId);
+        removeFromCart(product);
+      } else {
+        const newItem: Item = {
+          quantity,
+          ...product,
+        };
+        updateCart(newItem);
+        await updateItem(newItem);
+      }
+    } catch (err) {
+      console.error('Error updating item in cart:', err);
+    }
   }
 
   if (!product) {
@@ -60,13 +93,17 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
           <div className="quantity-button-subtotal">
             <p className="quantity-label">Quantity</p>
             <div className="quantity-container row">
-              <div className="minus-icon">
+              <div
+                className="minus-icon"
+                onClick={() => handleDecrement(product)}>
                 <LuMinus />
               </div>
               <div className="number-container">
                 <p>{quantity}</p>
               </div>
-              <div className="plus-icon">
+              <div
+                className="plus-icon"
+                onClick={() => handleIncrement(product)}>
                 <LuPlus />
               </div>
             </div>
