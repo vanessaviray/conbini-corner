@@ -25,22 +25,13 @@ CREATE TABLE "products" (
   "featuredProduct" boolean
 );
 
-CREATE TABLE "shoppingCarts" (
-  "cartId" serial PRIMARY KEY,
-  "userId" integer,
-  "createdAt" timestamptz NOT NULL DEFAULT (now()),
-  "updatedAt" timestamptz NOT NULL DEFAULT (now())
-);
-
 CREATE TABLE "shoppingCartItems" (
   "cartItemId" serial PRIMARY KEY,
-  "cartId" integer,
+  "userId" integer,
   "productId" integer,
   "quantity" integer
 );
 
-ALTER TABLE "shoppingCarts" ADD FOREIGN KEY ("userId") REFERENCES "users" ("userId");
-
-ALTER TABLE "shoppingCartItems" ADD FOREIGN KEY ("cartId") REFERENCES "shoppingCarts" ("cartId");
+ALTER TABLE "shoppingCartItems" ADD FOREIGN KEY ("userId") REFERENCES "users" ("userId");
 
 ALTER TABLE "shoppingCartItems" ADD FOREIGN KEY ("productId") REFERENCES "products" ("productId");

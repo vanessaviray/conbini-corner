@@ -69,6 +69,86 @@ app.get('/api/products/:productId', async (req, res, next) => {
   }
 });
 
+app.get('/api/initialCart', async (req, res, next) => {
+  try {
+    const sql = `
+      select *
+      from "products"
+      join "shoppingCartItems" using ("productId")
+    `;
+    const result = await db.query(sql);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/shoppingCartItems', async (req, res, next) => {
+  try {
+    const { quantity, productId } = req.body;
+    if (!quantity || !productId) {
+      throw new ClientError(400, 'task and isCompleted are required');
+    }
+    const sql = `
+      insert into "shoppingCartItems" ("userId", "productId", "quantity")
+        values (1, $1, $2)
+        returning *
+    `;
+    const params = [productId, quantity];
+    const result = await db.query(sql, params);
+    const item = result.rows[0];
+    res.status(201).json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.put('/api/shoppingCartItems', async (req, res, next) => {
+  try {
+    const { quantity, productId } = req.body;
+    if (!quantity || !productId) {
+      throw new ClientError(400, 'quantity and productId are required');
+    }
+    const sql = `
+      update "shoppingCartItems"
+      set "quantity" = $1
+      where "productId" = $2
+      returning *
+    `;
+
+    const params = [quantity, productId];
+    const result = await db.query(sql, params);
+    const [item] = result.rows;
+    if (!item) {
+      throw new ClientError(404, `Item with productId ${productId} not found`);
+    }
+    res.status(200).json(item);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.delete('/api/shoppingCartItems/:productId', async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+    if (!productId) {
+      throw new ClientError(400, 'productId is required');
+    }
+    const sql = `
+      delete from "shoppingCartItems"
+      where "productId" = $1
+      returning *;
+    `;
+    const params = [productId];
+    const result = await db.query(sql, params);
+    const product = result.rows[0];
+    if (!product) throw new ClientError(404, `product ${productId} not found`);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
 app.use(errorMiddleware);

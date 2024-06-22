@@ -9,7 +9,8 @@ import { RiAccountCircleLine } from 'react-icons/ri';
 import '../css/DesktopNavbar.css';
 import '../css/App.css';
 import { Popup } from '../components/Popup';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { CartContext } from '../components/CartContext';
 
 export function DesktopNavbar() {
   const [isSnacksOpen, setIsSnacksOpen] = useState(false);
@@ -38,6 +39,8 @@ export function DesktopNavbar() {
   const snacksPosition = useRef<HTMLDivElement>(null);
   const pantryPosition = useRef<HTMLDivElement>(null);
   const drinksPosition = useRef<HTMLDivElement>(null);
+
+  const { cart } = useContext(CartContext);
 
   return (
     <nav>
@@ -139,8 +142,11 @@ export function DesktopNavbar() {
               <div className="ml-10">
                 <RiAccountCircleLine size="1.5em" />
               </div>
-              <div className="ml-4">
-                <MdOutlineShoppingCart size="1.5em" />
+              <div className="shopping-cart-icon ml-4">
+                <Link to={'shoppingCart'}>
+                  <MdOutlineShoppingCart size="1.5em" />
+                  <span className="badge rounded-full">{cart.length}</span>
+                </Link>
               </div>
             </div>
           </div>
