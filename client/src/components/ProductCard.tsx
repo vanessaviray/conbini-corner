@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { toDollars } from '../lib/functions.ts';
 import { Item, Product } from '../lib/data.ts';
 import { useContext } from 'react';
@@ -13,6 +13,7 @@ type Props = {
 export function ProductCard({ product }: Props) {
   const { productId, name, price, defaultImageUrl } = product;
   const { addToCart, cart, updateCart } = useContext(CartContext);
+  const location = useLocation();
 
   async function handleAddToCart() {
     if (!product) throw new Error('product is undefined');
@@ -38,17 +39,18 @@ export function ProductCard({ product }: Props) {
         await insertItem(newItem);
         addToCart(newItem);
       }
-
-      // await insertItem(newItem);
-      // addToCart(newItem);
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
   }
 
+  const detailsLink = location.pathname.includes('category')
+    ? `/category/details/${productId}`
+    : `/details/${productId}`;
+
   return (
     <div className="product-container">
-      <Link to={`details/${productId}`}>
+      <Link to={detailsLink}>
         <div className="image-wrapper">
           <img src={defaultImageUrl} className="product-image" alt={name} />
         </div>

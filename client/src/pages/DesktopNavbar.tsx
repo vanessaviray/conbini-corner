@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { SearchBar } from '../components/SearchBar';
 import { LuLollipop } from 'react-icons/lu';
 import { TbBowlChopsticks } from 'react-icons/tb';
@@ -21,6 +21,8 @@ export function DesktopNavbar() {
     height: window.innerHeight,
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     function handleResize() {
       setWindowSize({
@@ -39,6 +41,12 @@ export function DesktopNavbar() {
   const snacksPosition = useRef<HTMLDivElement>(null);
   const pantryPosition = useRef<HTMLDivElement>(null);
   const drinksPosition = useRef<HTMLDivElement>(null);
+
+  function handleCategoryClick(event) {
+    const buttonValue = event.target.value;
+    console.log('Button value:', buttonValue);
+    navigate(`/category/${buttonValue}`);
+  }
 
   const { cart } = useContext(CartContext);
 
@@ -60,7 +68,9 @@ export function DesktopNavbar() {
                 className="snacks-category row items-center"
                 ref={snacksPosition}>
                 <LuLollipop size="1.25rem" />
-                <button>Snacks</button>
+                <button value="Snacks" onClick={handleCategoryClick}>
+                  Snacks
+                </button>
                 <div
                   onClick={() => {
                     setIsSnacksOpen(!isSnacksOpen);
@@ -86,7 +96,9 @@ export function DesktopNavbar() {
                 className="pantry-category row items-center"
                 ref={pantryPosition}>
                 <TbBowlChopsticks size="1.25rem" />
-                <button>Pantry</button>
+                <button value="Pantry" onClick={handleCategoryClick}>
+                  Pantry
+                </button>
                 <div
                   onClick={() => {
                     setIsPantryOpen(!isPantryOpen);
@@ -112,7 +124,9 @@ export function DesktopNavbar() {
                 className="drinks-category row items-center"
                 ref={drinksPosition}>
                 <RiDrinks2Line size="1.25rem" />
-                <button>Drinks</button>
+                <button value="Drinks" onClick={handleCategoryClick}>
+                  Drinks
+                </button>
                 <div
                   onClick={() => {
                     setIsDrinksOpen(!isDrinksOpen);
@@ -128,9 +142,8 @@ export function DesktopNavbar() {
                     setIsDrinksOpen(false);
                   }}>
                   <ul>
-                    <li>Chocolate</li>
-                    <li>Candy</li>
-                    <li>Chips</li>
+                    <li>Bottled Drinks</li>
+                    <li>Canned Drinks</li>
                   </ul>
                 </Popup>
               </div>

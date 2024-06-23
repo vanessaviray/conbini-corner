@@ -6,6 +6,18 @@ export async function readFeaturedProductsPreview(): Promise<Product[]> {
   return await response.json();
 }
 
+// export async function readSnacks(): Promise<Product[]> {
+//   const response = await fetch('/api/snacks');
+//   if (!response.ok) throw new Error(`fetch error, ${response.status}`);
+//   return await response.json();
+// }
+
+export async function readCategory(category): Promise<Product[]> {
+  const response = await fetch(`/api/${category}`);
+  if (!response.ok) throw new Error(`fetch error, ${response.status}`);
+  return await response.json();
+}
+
 export async function readProduct(productId: number): Promise<Product> {
   const response = await fetch(`/api/products/${productId}`);
   if (!response.ok) throw new Error(`fetch error, ${response.status}`);

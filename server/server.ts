@@ -47,6 +47,40 @@ app.get('/api/featuredProductsPreview', async (req, res, next) => {
   }
 });
 
+// app.get('/api/snacks', async (req, res, next) => {
+//   try {
+//     const sql = `
+//       select *
+//       from "products"
+//       where "category" = 'Snacks'
+//     `;
+//     const result = await db.query(sql);
+//     res.json(result.rows);
+//   } catch (err) {
+//     next(err);
+//   }
+// });
+
+app.get('/api/:category', async (req, res, next) => {
+  try {
+    const { category } = req.params;
+    if (!category) {
+      throw new ClientError(400, 'category is required');
+    }
+    const sql = `
+      select *
+      from "products"
+      where "category" = $1
+    `;
+
+    const params = [category];
+    const result = await db.query(sql, params);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('/api/products/:productId', async (req, res, next) => {
   try {
     const { productId } = req.params;

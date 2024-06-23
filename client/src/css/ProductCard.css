@@ -64,6 +64,13 @@
   margin-bottom: 10px;
 }
 
+.number-of-results {
+  margin-left: 16px;
+  margin-bottom: 16px;
+  color: #b0b0b0;
+  font-size: 14px;
+}
+
 @media screen and (width >= 768px) {
   .product-container {
     border: 2px solid #f2f2f2;

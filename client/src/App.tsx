@@ -9,6 +9,7 @@ import { type CartValue, CartContext } from './components/CartContext.tsx';
 import { ShoppingCart } from './pages/ShoppingCart.tsx';
 import { Item } from './lib/data.ts';
 import { readInitialCart } from './lib/read.ts';
+import { Category } from './pages/Category.tsx';
 
 export default function App() {
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
@@ -70,12 +71,22 @@ export default function App() {
             <Route index element={<LandingPage />} />
             <Route path="details/:productId" element={<ProductDetails />} />
             <Route path="shoppingCart" element={<ShoppingCart />} />
+            <Route
+              path="/category/details/:productId"
+              element={<ProductDetails />}
+            />
+            <Route path="category" element={<Category />} />
           </Route>
         ) : (
           <Route path="/" element={<DesktopNavbar />}>
             <Route index element={<LandingPage />} />
             <Route path="details/:productId" element={<ProductDetails />} />
+            <Route
+              path="/category/details/:productId"
+              element={<ProductDetails />}
+            />
             <Route path="shoppingCart" element={<ShoppingCart />} />
+            <Route path="category/:categoryName" element={<Category />} />
           </Route>
         )}
       </Routes>
