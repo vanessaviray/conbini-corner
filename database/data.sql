@@ -275,8 +275,8 @@ insert into "products"
     'Kimino Sparkling Water: Yuzu Japanese Citrus',
     349,
     'Yuzu is the most popular citrus flavor in Japan. This variation of canned sparkling water from Kimino contains the juice of an entire yuzu fruit, hand-picked on the island of Shikoku. With just two ingredients and no added sweeteners, it''s refreshing without being sweet.',
-    '/images/drinks/canned-drinks/',
-    '/images/drinks/canned-drinks/',
+    '/images/drinks/canned-drinks/kimino-sparkling-water-yuzu-japanese-citrus.webp',
+    '/images/drinks/canned-drinks/kimino-sparkling-water-yuzu-japanese-citrus_2.webp',
     false
   ), (
     'Drinks',

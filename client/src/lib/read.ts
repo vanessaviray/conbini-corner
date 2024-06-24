@@ -1,7 +1,31 @@
 import { Item, Product } from './data';
 
+export async function readAllProducts(): Promise<Product[]> {
+  const response = await fetch('/api/allProducts');
+  if (!response.ok) throw new Error(`fetch error, ${response.status}`);
+  return await response.json();
+}
+
 export async function readFeaturedProductsPreview(): Promise<Product[]> {
   const response = await fetch('/api/featuredProductsPreview');
+  if (!response.ok) throw new Error(`fetch error, ${response.status}`);
+  return await response.json();
+}
+
+export async function readFeaturedProductsAll(): Promise<Product[]> {
+  const response = await fetch('/api/featuredProductsAll');
+  if (!response.ok) throw new Error(`fetch error, ${response.status}`);
+  return await response.json();
+}
+
+export async function readCategory(category): Promise<Product[]> {
+  const response = await fetch(`/api/${category}`);
+  if (!response.ok) throw new Error(`fetch error, ${response.status}`);
+  return await response.json();
+}
+
+export async function readSubcategory(subcategory): Promise<Product[]> {
+  const response = await fetch(`/api/subcategory/${subcategory}`);
   if (!response.ok) throw new Error(`fetch error, ${response.status}`);
   return await response.json();
 }

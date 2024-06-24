@@ -5,6 +5,7 @@ import { ProductCard } from '../components/ProductCard.tsx';
 import { Carousel } from '../components/Carousel.tsx';
 import '../css/ProductCard.css';
 import { images } from '../lib/data.ts';
+import { Link } from 'react-router-dom';
 
 export function LandingPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -41,29 +42,31 @@ export function LandingPage() {
   return (
     <div className="landing-page">
       <div className="hero-section row">
-        <div className="card-one">
+        <Link to={'subcategory/Noodles'} className="card-one">
           <img src="/images/marketing/card-1.png" />
-        </div>
-        <div className="carousel">
+        </Link>
+        <Link to={'allProducts'} className="carousel">
           <Carousel images={images} />
-        </div>
+        </Link>
         <div className="cards-two-and-three">
-          <div className="card-two">
+          <Link to={'category/Drinks'} className="card-two">
             <img src="/images/marketing/card-2.png" />
-          </div>
-          <div className="card-three">
+          </Link>
+          <Link to={'subcategory/Candy'} className="card-three">
             <img className="object-cover" src="/images/marketing/card-3.png" />
-          </div>
+          </Link>
         </div>
       </div>
       <div className="row section-heading">
         <p className="section-name">Featured Products</p>
-        <button className="view-all-button">VIEW ALL</button>
+        <Link to={'allFeaturedProducts'}>
+          <button className="view-all-button">VIEW ALL</button>
+        </Link>
       </div>
       <div className="products-container">
         {products?.map((product) => (
           <div key={product.productId}>
-            <ProductCard product={product} />
+            <ProductCard product={product} currentPage="LandingPage" />
           </div>
         ))}
       </div>

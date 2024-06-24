@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { Product, Item } from '../lib/data';
 import { insertItem, readProduct, updateItem } from '../lib/read';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import '../css/App.css';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import '../css/ProductDetails.css';
@@ -19,6 +19,7 @@ export function ProductDetails() {
 
   const { productId } = useParams();
   const { addToCart, cart, updateCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadProduct(productId: number) {
@@ -111,11 +112,19 @@ export function ProductDetails() {
         <div className="breadcrumb-arrow">
           <MdOutlineKeyboardArrowRight />
         </div>
-        <button className="breadcrumb-button">{category}</button>
+        <button
+          className="breadcrumb-button"
+          onClick={() => navigate(`/category/${category}`)}>
+          {category}
+        </button>
         <div className="breadcrumb-arrow">
           <MdOutlineKeyboardArrowRight />
         </div>
-        <button className="breadcrumb-button">{subcategory}</button>
+        <button
+          className="breadcrumb-button"
+          onClick={() => navigate(`/subcategory/${subcategory}`)}>
+          {subcategory}
+        </button>
         <div className="breadcrumb-arrow">
           <MdOutlineKeyboardArrowRight />
         </div>

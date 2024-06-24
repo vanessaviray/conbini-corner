@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { SearchBar } from '../components/SearchBar';
 import { LuLollipop } from 'react-icons/lu';
 import { TbBowlChopsticks } from 'react-icons/tb';
@@ -21,6 +21,8 @@ export function DesktopNavbar() {
     height: window.innerHeight,
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     function handleResize() {
       setWindowSize({
@@ -39,6 +41,19 @@ export function DesktopNavbar() {
   const snacksPosition = useRef<HTMLDivElement>(null);
   const pantryPosition = useRef<HTMLDivElement>(null);
   const drinksPosition = useRef<HTMLDivElement>(null);
+
+  function handleCategoryClick(event) {
+    const buttonValue = event.target.value;
+    navigate(`/category/${buttonValue}`);
+  }
+
+  function handleSubcategoryClick(event) {
+    setIsSnacksOpen(false);
+    setIsPantryOpen(false);
+    setIsDrinksOpen(false);
+    const buttonValue = event.target.value;
+    navigate(`/subcategory/${buttonValue}`);
+  }
 
   const { cart } = useContext(CartContext);
 
@@ -60,7 +75,9 @@ export function DesktopNavbar() {
                 className="snacks-category row items-center"
                 ref={snacksPosition}>
                 <LuLollipop size="1.25rem" />
-                <button>Snacks</button>
+                <button value="Snacks" onClick={handleCategoryClick}>
+                  Snacks
+                </button>
                 <div
                   onClick={() => {
                     setIsSnacksOpen(!isSnacksOpen);
@@ -76,9 +93,23 @@ export function DesktopNavbar() {
                     setIsSnacksOpen(false);
                   }}>
                   <ul>
-                    <li>Chocolate</li>
-                    <li>Candy</li>
-                    <li>Chips</li>
+                    <li>
+                      <button
+                        value="Chocolate"
+                        onClick={handleSubcategoryClick}>
+                        Chocolate
+                      </button>
+                    </li>
+                    <li>
+                      <button value="Candy" onClick={handleSubcategoryClick}>
+                        Candy
+                      </button>
+                    </li>
+                    <li>
+                      <button value="Chips" onClick={handleSubcategoryClick}>
+                        Chips
+                      </button>
+                    </li>
                   </ul>
                 </Popup>
               </div>
@@ -86,7 +117,9 @@ export function DesktopNavbar() {
                 className="pantry-category row items-center"
                 ref={pantryPosition}>
                 <TbBowlChopsticks size="1.25rem" />
-                <button>Pantry</button>
+                <button value="Pantry" onClick={handleCategoryClick}>
+                  Pantry
+                </button>
                 <div
                   onClick={() => {
                     setIsPantryOpen(!isPantryOpen);
@@ -102,9 +135,25 @@ export function DesktopNavbar() {
                     setIsPantryOpen(false);
                   }}>
                   <ul>
-                    <li>Noodles</li>
-                    <li>Packaged Foods</li>
-                    <li>Condiments</li>
+                    <li>
+                      <button value="Noodles" onClick={handleSubcategoryClick}>
+                        Noodles
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        value="Packaged Foods"
+                        onClick={handleSubcategoryClick}>
+                        Packaged Foods
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        value="Condiments"
+                        onClick={handleSubcategoryClick}>
+                        Condiments
+                      </button>
+                    </li>
                   </ul>
                 </Popup>
               </div>
@@ -112,7 +161,9 @@ export function DesktopNavbar() {
                 className="drinks-category row items-center"
                 ref={drinksPosition}>
                 <RiDrinks2Line size="1.25rem" />
-                <button>Drinks</button>
+                <button value="Drinks" onClick={handleCategoryClick}>
+                  Drinks
+                </button>
                 <div
                   onClick={() => {
                     setIsDrinksOpen(!isDrinksOpen);
@@ -128,9 +179,20 @@ export function DesktopNavbar() {
                     setIsDrinksOpen(false);
                   }}>
                   <ul>
-                    <li>Chocolate</li>
-                    <li>Candy</li>
-                    <li>Chips</li>
+                    <li>
+                      <button
+                        value="Bottled Drinks"
+                        onClick={handleSubcategoryClick}>
+                        Bottled Drinks
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        value="Canned Drinks"
+                        onClick={handleSubcategoryClick}>
+                        Canned Drinks
+                      </button>
+                    </li>
                   </ul>
                 </Popup>
               </div>
