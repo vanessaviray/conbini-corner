@@ -44,8 +44,15 @@ export function DesktopNavbar() {
 
   function handleCategoryClick(event) {
     const buttonValue = event.target.value;
-    console.log('Button value:', buttonValue);
     navigate(`/category/${buttonValue}`);
+  }
+
+  function handleSubcategoryClick(event) {
+    setIsSnacksOpen(false);
+    setIsPantryOpen(false);
+    setIsDrinksOpen(false);
+    const buttonValue = event.target.value;
+    navigate(`/subcategory/${buttonValue}`);
   }
 
   const { cart } = useContext(CartContext);
@@ -86,9 +93,23 @@ export function DesktopNavbar() {
                     setIsSnacksOpen(false);
                   }}>
                   <ul>
-                    <li>Chocolate</li>
-                    <li>Candy</li>
-                    <li>Chips</li>
+                    <li>
+                      <button
+                        value="Chocolate"
+                        onClick={handleSubcategoryClick}>
+                        Chocolate
+                      </button>
+                    </li>
+                    <li>
+                      <button value="Candy" onClick={handleSubcategoryClick}>
+                        Candy
+                      </button>
+                    </li>
+                    <li>
+                      <button value="Chips" onClick={handleSubcategoryClick}>
+                        Chips
+                      </button>
+                    </li>
                   </ul>
                 </Popup>
               </div>
@@ -114,9 +135,25 @@ export function DesktopNavbar() {
                     setIsPantryOpen(false);
                   }}>
                   <ul>
-                    <li>Noodles</li>
-                    <li>Packaged Foods</li>
-                    <li>Condiments</li>
+                    <li>
+                      <button value="Noodles" onClick={handleSubcategoryClick}>
+                        Noodles
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        value="Packaged Foods"
+                        onClick={handleSubcategoryClick}>
+                        Packaged Foods
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        value="Condiments"
+                        onClick={handleSubcategoryClick}>
+                        Condiments
+                      </button>
+                    </li>
                   </ul>
                 </Popup>
               </div>
@@ -142,8 +179,20 @@ export function DesktopNavbar() {
                     setIsDrinksOpen(false);
                   }}>
                   <ul>
-                    <li>Bottled Drinks</li>
-                    <li>Canned Drinks</li>
+                    <li>
+                      <button
+                        value="Bottled Drinks"
+                        onClick={handleSubcategoryClick}>
+                        Bottled Drinks
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        value="Canned Drinks"
+                        onClick={handleSubcategoryClick}>
+                        Canned Drinks
+                      </button>
+                    </li>
                   </ul>
                 </Popup>
               </div>

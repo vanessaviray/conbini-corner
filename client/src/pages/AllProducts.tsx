@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react';
 import { ProductCard } from '../components/ProductCard';
-import { readCategory } from '../lib/read';
+import { readAllProducts } from '../lib/read';
 import { Product } from '../lib/data';
-import { useParams } from 'react-router-dom';
-import '../css/Results.css';
 
-export function Category() {
+export function AllProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<unknown>();
 
-  const { categoryName } = useParams<{ categoryName: string }>();
-
   useEffect(() => {
-    async function loadCategory() {
+    async function loadAllProducts() {
       try {
-        const products = await readCategory(categoryName);
+        const products = await readAllProducts();
         setProducts(products);
       } catch (err) {
         console.error('read error', err);
@@ -24,7 +20,7 @@ export function Category() {
         setIsLoading(false);
       }
     }
-    loadCategory();
+    loadAllProducts();
   }, [products]);
 
   if (isLoading) {
@@ -43,12 +39,12 @@ export function Category() {
 
   return (
     <div className="results-container">
-      <div className="section-name">{categoryName}</div>
+      <div className="section-name">Shop All Products</div>
       <div className="number-of-results">{numberOfResults} Results</div>
       <div className="products-container-category">
         {products?.map((product) => (
           <div key={product.productId} className="product-card">
-            <ProductCard product={product} currentPage="Category" />
+            <ProductCard product={product} currentPage="AllProducts" />
           </div>
         ))}
       </div>

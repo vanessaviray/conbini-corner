@@ -10,6 +10,8 @@ import { ShoppingCart } from './pages/ShoppingCart.tsx';
 import { Item } from './lib/data.ts';
 import { readInitialCart } from './lib/read.ts';
 import { Category } from './pages/Category.tsx';
+import { Subcategory } from './pages/Subcategory.tsx';
+import { AllProducts } from './pages/AllProducts.tsx';
 
 export default function App() {
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
@@ -70,12 +72,17 @@ export default function App() {
           <Route path="/" element={<MobileNavbar />}>
             <Route index element={<LandingPage />} />
             <Route path="details/:productId" element={<ProductDetails />} />
-            <Route path="shoppingCart" element={<ShoppingCart />} />
             <Route
               path="/category/details/:productId"
               element={<ProductDetails />}
             />
-            <Route path="category" element={<Category />} />
+            <Route path="shoppingCart" element={<ShoppingCart />} />
+            <Route path="category/:categoryName" element={<Category />} />
+            <Route
+              path="subcategory/:subcategoryName"
+              element={<Subcategory />}
+            />
+            <Route path="allProducts" element={<AllProducts />} />
           </Route>
         ) : (
           <Route path="/" element={<DesktopNavbar />}>
@@ -87,6 +94,11 @@ export default function App() {
             />
             <Route path="shoppingCart" element={<ShoppingCart />} />
             <Route path="category/:categoryName" element={<Category />} />
+            <Route
+              path="subcategory/:subcategoryName"
+              element={<Subcategory />}
+            />
+            <Route path="allProducts" element={<AllProducts />} />
           </Route>
         )}
       </Routes>

@@ -32,6 +32,19 @@ app.use(express.json());
  * This must be the _last_ route, just before errorMiddleware.
  */
 
+app.get('/api/allProducts', async (req, res, next) => {
+  try {
+    const sql = `
+      select *
+      from "products"
+    `;
+    const result = await db.query(sql);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('/api/featuredProductsPreview', async (req, res, next) => {
   try {
     const sql = `
@@ -47,13 +60,14 @@ app.get('/api/featuredProductsPreview', async (req, res, next) => {
   }
 });
 
-// app.get('/api/snacks', async (req, res, next) => {
+// app.get('/api/Chocolate', async (req, res, next) => {
 //   try {
 //     const sql = `
 //       select *
 //       from "products"
-//       where "category" = 'Snacks'
+//       where "subcategory" = 'Chocolate'
 //     `;
+
 //     const result = await db.query(sql);
 //     res.json(result.rows);
 //   } catch (err) {
@@ -74,6 +88,26 @@ app.get('/api/:category', async (req, res, next) => {
     `;
 
     const params = [category];
+    const result = await db.query(sql, params);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/api/subcategory/:subcategory', async (req, res, next) => {
+  try {
+    const { subcategory } = req.params;
+    if (!subcategory) {
+      throw new ClientError(400, 'subcategory is required');
+    }
+    const sql = `
+      select *
+      from "products"
+      where "subcategory" = $1
+    `;
+
+    const params = [subcategory];
     const result = await db.query(sql, params);
     res.json(result.rows);
   } catch (err) {

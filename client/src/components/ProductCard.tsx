@@ -8,9 +8,10 @@ import '../css/LandingPage.css';
 
 type Props = {
   product: Product;
+  currentPage: string;
 };
 
-export function ProductCard({ product }: Props) {
+export function ProductCard({ product, currentPage }: Props) {
   const { productId, name, price, defaultImageUrl } = product;
   const { addToCart, cart, updateCart } = useContext(CartContext);
   const location = useLocation();
@@ -44,12 +45,20 @@ export function ProductCard({ product }: Props) {
     }
   }
 
+  let productCardClass = '';
+
+  if (currentPage === 'LandingPage') {
+    productCardClass = 'product-container';
+  } else {
+    productCardClass = 'product-container-category';
+  }
+
   const detailsLink = location.pathname.includes('category')
     ? `/category/details/${productId}`
     : `/details/${productId}`;
 
   return (
-    <div className="product-container">
+    <div className={productCardClass}>
       <Link to={detailsLink}>
         <div className="image-wrapper">
           <img src={defaultImageUrl} className="product-image" alt={name} />
