@@ -12,11 +12,11 @@ export async function readFeaturedProductsPreview(): Promise<Product[]> {
   return await response.json();
 }
 
-// export async function readSnacks(): Promise<Product[]> {
-//   const response = await fetch('/api/snacks');
-//   if (!response.ok) throw new Error(`fetch error, ${response.status}`);
-//   return await response.json();
-// }
+export async function readFeaturedProductsAll(): Promise<Product[]> {
+  const response = await fetch('/api/featuredProductsAll');
+  if (!response.ok) throw new Error(`fetch error, ${response.status}`);
+  return await response.json();
+}
 
 export async function readCategory(category): Promise<Product[]> {
   const response = await fetch(`/api/${category}`);

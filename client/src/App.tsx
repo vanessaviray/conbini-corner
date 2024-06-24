@@ -12,6 +12,7 @@ import { readInitialCart } from './lib/read.ts';
 import { Category } from './pages/Category.tsx';
 import { Subcategory } from './pages/Subcategory.tsx';
 import { AllProducts } from './pages/AllProducts.tsx';
+import { AllFeaturedProducts } from './pages/AllFeaturedProducts.tsx';
 
 export default function App() {
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
@@ -83,6 +84,10 @@ export default function App() {
               element={<Subcategory />}
             />
             <Route path="allProducts" element={<AllProducts />} />
+            <Route
+              path="allFeaturedProducts"
+              element={<AllFeaturedProducts />}
+            />
           </Route>
         ) : (
           <Route path="/" element={<DesktopNavbar />}>
@@ -99,6 +104,10 @@ export default function App() {
               element={<Subcategory />}
             />
             <Route path="allProducts" element={<AllProducts />} />
+            <Route
+              path="allFeaturedProducts"
+              element={<AllFeaturedProducts />}
+            />
           </Route>
         )}
       </Routes>

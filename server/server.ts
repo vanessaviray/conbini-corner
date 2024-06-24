@@ -60,20 +60,19 @@ app.get('/api/featuredProductsPreview', async (req, res, next) => {
   }
 });
 
-// app.get('/api/Chocolate', async (req, res, next) => {
-//   try {
-//     const sql = `
-//       select *
-//       from "products"
-//       where "subcategory" = 'Chocolate'
-//     `;
-
-//     const result = await db.query(sql);
-//     res.json(result.rows);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+app.get('/api/featuredProductsAll', async (req, res, next) => {
+  try {
+    const sql = `
+      select *
+      from "products"
+      where "featuredProduct" = true
+    `;
+    const result = await db.query(sql);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.get('/api/:category', async (req, res, next) => {
   try {

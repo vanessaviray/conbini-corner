@@ -59,7 +59,9 @@ export function LandingPage() {
       </div>
       <div className="row section-heading">
         <p className="section-name">Featured Products</p>
-        <button className="view-all-button">VIEW ALL</button>
+        <Link to={'allFeaturedProducts'}>
+          <button className="view-all-button">VIEW ALL</button>
+        </Link>
       </div>
       <div className="products-container">
         {products?.map((product) => (
