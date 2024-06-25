@@ -33,6 +33,10 @@ export function DesktopNavbar() {
   const { handleSignIn, handleSignOut } = useUser();
   const navigate = useNavigate();
 
+  const snacksPosition = useRef<HTMLDivElement>(null);
+  const pantryPosition = useRef<HTMLDivElement>(null);
+  const drinksPosition = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function handleResize() {
       setWindowSize({
@@ -47,10 +51,6 @@ export function DesktopNavbar() {
       window.removeEventListener('resize', handleResize);
     };
   }, [windowSize]);
-
-  const snacksPosition = useRef<HTMLDivElement>(null);
-  const pantryPosition = useRef<HTMLDivElement>(null);
-  const drinksPosition = useRef<HTMLDivElement>(null);
 
   function handleCategoryClick(event) {
     const buttonValue = event.target.value;
@@ -82,9 +82,7 @@ export function DesktopNavbar() {
       }
       const user = await res.json();
       console.log('Registered', user);
-      alert(
-        `Successfully registered ${user.username} as userId ${user.userId}.`
-      );
+      alert(`Successfully registered new account.`);
       setIsLoginDisplay(true);
     } catch (err) {
       alert(`Error registering user: ${err}`);
@@ -110,8 +108,6 @@ export function DesktopNavbar() {
       }
       const { user, token } = await res.json();
       handleSignIn(user, token);
-      console.log('Signed In', user);
-      console.log('Received token:', token);
       setIsOpen(false);
     } catch (err) {
       alert(`Error signing in: ${err}`);
@@ -122,6 +118,7 @@ export function DesktopNavbar() {
 
   function handleLogOut() {
     handleSignOut();
+    alert('You have successfully logged out.');
   }
 
   return (
