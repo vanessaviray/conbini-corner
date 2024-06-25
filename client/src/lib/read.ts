@@ -4,21 +4,21 @@ import { User } from '../components/UserContext';
 const authKey = 'um.auth';
 
 export function saveAuth(user: User, token: string): void {
-  sessionStorage.setItem(authKey, JSON.stringify({ user, token }));
+  localStorage.setItem(authKey, JSON.stringify({ user, token }));
 }
 
 export function removeAuth(): void {
-  sessionStorage.removeItem(authKey);
+  localStorage.removeItem(authKey);
 }
 
 export function readUser(): User | undefined {
-  const auth = sessionStorage.getItem(authKey);
+  const auth = localStorage.getItem(authKey);
   if (!auth) return undefined;
   return JSON.parse(auth).user;
 }
 
 export function readToken(): string | undefined {
-  const auth = sessionStorage.getItem(authKey);
+  const auth = localStorage.getItem(authKey);
   if (!auth) return undefined;
   return JSON.parse(auth).token;
 }
@@ -105,9 +105,8 @@ export async function deleteItem(productId: number): Promise<void> {
   const token = readToken();
   const req = {
     method: 'DELETE',
-    Authorization: `Bearer ${token}`,
+    headers: { Authorization: `Bearer ${token}` },
   };
   const res = await fetch(`/api/shoppingCartItems/${productId}`, req);
   if (!res.ok) throw new Error(`fetch Error ${res.status}`);
-  return await res.json();
 }

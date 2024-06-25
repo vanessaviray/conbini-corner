@@ -25,7 +25,7 @@ export function Category() {
       }
     }
     loadCategory();
-  }, []);
+  }, [categoryName]);
 
   if (isLoading) {
     return <div>Loading...</div>;

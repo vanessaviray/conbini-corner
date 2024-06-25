@@ -263,7 +263,7 @@ app.put('/api/shoppingCartItems', authMiddleware, async (req, res, next) => {
     const sql = `
       update "shoppingCartItems"
       set "quantity" = $1
-      where "productId" = $2 and userId = $3
+      where "productId" = $2 and "userId" = $3
       returning *
     `;
 
@@ -290,7 +290,7 @@ app.delete(
       }
       const sql = `
       delete from "shoppingCartItems"
-      where "productId" = $1 and userId = $2
+      where "productId" = $1 and "userId" = $2
       returning *;
     `;
       const params = [productId, req.user?.userId];

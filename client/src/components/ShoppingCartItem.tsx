@@ -31,10 +31,15 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
     }
   }, [productId]);
 
-  function handleRemoveItem(product) {
+  async function handleRemoveItem(product) {
     if (!product?.productId) throw new Error('Should never happen');
-    deleteItem(product.productId);
-    removeFromCart(product);
+    try {
+      await deleteItem(product.productId);
+      removeFromCart(product);
+    } catch (err) {
+      console.log(err);
+      alert('unable to delete the item');
+    }
   }
 
   async function handleIncrement(product) {
