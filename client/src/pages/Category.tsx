@@ -25,7 +25,7 @@ export function Category() {
       }
     }
     loadCategory();
-  }, [products]);
+  }, [categoryName]);
 
   if (isLoading) {
     return <div>Loading...</div>;

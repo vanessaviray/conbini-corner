@@ -76,6 +76,7 @@ export function ProductDetails() {
           newItem.quantity = cart[i].quantity + quantity;
           updateCart(newItem);
           await updateItem(newItem);
+          alert(`${name} was added to cart.`);
           itemExists = true;
           break;
         }
@@ -84,6 +85,7 @@ export function ProductDetails() {
       if (!itemExists) {
         await insertItem(newItem);
         addToCart(newItem);
+        alert(`${name} was added to cart.`);
       }
 
       setQuantity(1);

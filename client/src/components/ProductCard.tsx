@@ -31,6 +31,7 @@ export function ProductCard({ product, currentPage }: Props) {
           newItem.quantity = cart[i].quantity + 1;
           updateCart(newItem);
           await updateItem(newItem);
+          alert(`Another ${name} was added to cart.`);
           itemExists = true;
           break;
         }
@@ -39,6 +40,7 @@ export function ProductCard({ product, currentPage }: Props) {
       if (!itemExists) {
         await insertItem(newItem);
         addToCart(newItem);
+        alert(`${name} was added to cart.`);
       }
     } catch (error) {
       console.error('Error adding to cart:', error);

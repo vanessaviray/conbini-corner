@@ -9,19 +9,33 @@ import { RiAccountCircleLine } from 'react-icons/ri';
 import '../css/DesktopNavbar.css';
 import '../css/App.css';
 import { Popup } from '../components/Popup';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { CartContext } from '../components/CartContext';
+import { Modal } from '../components/Modal.tsx';
+import { IoClose } from 'react-icons/io5';
+import { useUser } from '../lib/useUser.ts';
+import { UserContext } from '../components/UserContext.tsx';
 
 export function DesktopNavbar() {
   const [isSnacksOpen, setIsSnacksOpen] = useState(false);
   const [isPantryOpen, setIsPantryOpen] = useState(false);
   const [isDrinksOpen, setIsDrinksOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoginDisplay, setIsLoginDisplay] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
 
+  const { user } = useContext(UserContext);
+  const { cart } = useContext(CartContext);
+  const { handleSignIn, handleSignOut } = useUser();
   const navigate = useNavigate();
+
+  const snacksPosition = useRef<HTMLDivElement>(null);
+  const pantryPosition = useRef<HTMLDivElement>(null);
+  const drinksPosition = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleResize() {
@@ -38,10 +52,6 @@ export function DesktopNavbar() {
     };
   }, [windowSize]);
 
-  const snacksPosition = useRef<HTMLDivElement>(null);
-  const pantryPosition = useRef<HTMLDivElement>(null);
-  const drinksPosition = useRef<HTMLDivElement>(null);
-
   function handleCategoryClick(event) {
     const buttonValue = event.target.value;
     navigate(`/category/${buttonValue}`);
@@ -55,7 +65,61 @@ export function DesktopNavbar() {
     navigate(`/subcategory/${buttonValue}`);
   }
 
-  const { cart } = useContext(CartContext);
+  async function handleSignUp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      setIsLoading(true);
+      const formData = new FormData(event.currentTarget);
+      const userData = Object.fromEntries(formData);
+      const req = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      };
+      const res = await fetch('/api/auth/sign-up', req);
+      if (!res.ok) {
+        throw new Error(`fetch Error ${res.status}`);
+      }
+      const user = await res.json();
+      console.log('Registered', user);
+      alert(`Successfully registered new account.`);
+      setIsLoginDisplay(true);
+    } catch (err) {
+      alert(`Error registering user: ${err}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      setIsLoading(true);
+      const formData = new FormData(event.currentTarget);
+      const userData = Object.fromEntries(formData);
+      const req = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      };
+      const res = await fetch('/api/auth/sign-in', req);
+      if (!res.ok) {
+        throw new Error(`fetch Error ${res.status}`);
+      }
+      const { user, token } = await res.json();
+      handleSignIn(user, token);
+      setIsOpen(false);
+    } catch (err) {
+      alert(`Error signing in: ${err}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function handleLogOut() {
+    handleSignOut();
+    alert('You have successfully logged out.');
+  }
 
   return (
     <nav>
@@ -201,9 +265,106 @@ export function DesktopNavbar() {
           <div className="row items-center">
             <SearchBar />
             <div className="row">
-              <div className="ml-10">
-                <RiAccountCircleLine size="1.5em" />
-              </div>
+              {!user ? (
+                <div
+                  className="ml-10"
+                  onClick={() => {
+                    setIsOpen(true);
+                    setIsLoginDisplay(true);
+                  }}>
+                  <RiAccountCircleLine size="1.5em" />
+                </div>
+              ) : (
+                <button
+                  className="ml-5 underline text-sm"
+                  onClick={handleLogOut}>
+                  Log Out
+                </button>
+              )}
+              <Modal
+                isOpen={isOpen}
+                onClose={() => {
+                  setIsOpen(false);
+                }}>
+                <div
+                  className="flex justify-end relative top-3 right-3"
+                  onClick={() => {
+                    setIsOpen(false);
+                  }}>
+                  <IoClose size="1.5em" />
+                </div>
+                <div className="modal-contents">
+                  {isLoginDisplay ? (
+                    <div className="column flex items-start justify-between">
+                      <p className="modal-header">Login</p>
+                      <form onSubmit={handleLogin}>
+                        <div className="mb-6">
+                          <p className="mb-2">Email Address</p>
+                          <input
+                            required
+                            name="emailAddress"
+                            className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
+                          />
+                        </div>
+                        <div className="mb-10">
+                          <p className="mb-2">Password</p>
+                          <input
+                            required
+                            name="password"
+                            className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
+                          />
+                        </div>
+                        <button className="form-button" disabled={isLoading}>
+                          LOGIN
+                        </button>
+                      </form>
+                      <div className="row">
+                        <p>Don't have an account?</p>
+                        <button
+                          className="pl-2 modal-display-button"
+                          onClick={() => {
+                            setIsLoginDisplay(!isLoginDisplay);
+                          }}>
+                          Sign up.
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="column flex items-start justify-between">
+                      <p className="modal-header">Create Account</p>
+                      <form onSubmit={handleSignUp}>
+                        <div className="mb-6">
+                          <p className="mb-2">Email Address</p>
+                          <input
+                            required
+                            name="emailAddress"
+                            className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
+                          />
+                        </div>
+                        <div className="mb-10">
+                          <p className="mb-2">Password</p>
+                          <input
+                            required
+                            name="password"
+                            className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
+                          />
+                        </div>
+                        <button className="form-button">CREATE ACCOUNT</button>
+                      </form>
+                      <div className="row">
+                        <p>Already have an account?</p>
+                        <button
+                          className="pl-2 modal-display-button"
+                          onClick={() => {
+                            setIsLoginDisplay(!isLoginDisplay);
+                          }}>
+                          Sign In.
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Modal>
               <div className="shopping-cart-icon ml-4">
                 <Link to={'shoppingCart'}>
                   <MdOutlineShoppingCart size="1.5em" />

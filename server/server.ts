@@ -2,7 +2,20 @@
 import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
-import { ClientError, errorMiddleware } from './lib/index.js';
+import argon2 from 'argon2';
+import jwt from 'jsonwebtoken';
+import { ClientError, errorMiddleware, authMiddleware } from './lib/index.js';
+
+type User = {
+  userId: number;
+  emailAddress: string;
+  hashedPassword: string;
+};
+
+type Auth = {
+  emailAddress: string;
+  password: string;
+};
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -10,6 +23,9 @@ const db = new pg.Pool({
     rejectUnauthorized: false,
   },
 });
+
+const hashKey = process.env.TOKEN_SECRET;
+if (!hashKey) throw new Error('TOKEN_SECRET not found in .env');
 
 const app = express();
 
@@ -31,6 +47,68 @@ app.use(express.json());
  * It responds with `index.html` to support page refreshes with React Router.
  * This must be the _last_ route, just before errorMiddleware.
  */
+
+app.post('/api/auth/sign-up', async (req, res, next) => {
+  try {
+    const { emailAddress, password } = req.body;
+    if (!emailAddress || !password) {
+      throw new ClientError(
+        400,
+        'email address and password are required fields'
+      );
+    }
+    const hashedPassword = await argon2.hash(password);
+
+    const sql = `
+      insert into "users" ("emailAddress", "hashedPassword")
+      values ($1, $2)
+      returning "userId", "emailAddress", "createdAt";
+    `;
+
+    const result = await db.query(sql, [emailAddress, hashedPassword]);
+    const user = result.rows[0];
+    res.status(201).json(user);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/auth/sign-in', async (req, res, next) => {
+  try {
+    const { emailAddress, password } = req.body as Partial<Auth>;
+    if (!emailAddress || !password) {
+      throw new ClientError(401, 'invalid login');
+    }
+
+    const sql = `
+      select "userId", "hashedPassword", "emailAddress"
+      from "users"
+      where "emailAddress" = $1
+    `;
+
+    const result = await db.query(sql, [emailAddress]);
+    if (!result) {
+      throw new ClientError(401, 'invalid login');
+    }
+    const user = result.rows[0];
+
+    const unhashedPassword = argon2.verify(user.hashedPassword, password);
+    if (!unhashedPassword) {
+      throw new ClientError(401, 'invalid login');
+    }
+
+    const userInfo = {
+      userId: user.userId,
+      username: user.username,
+    };
+
+    const token = jwt.sign(userInfo, hashKey);
+    console.log('userInfo:', userInfo);
+    res.status(200).send({ user: userInfo, token });
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.get('/api/allProducts', async (req, res, next) => {
   try {
@@ -74,7 +152,7 @@ app.get('/api/featuredProductsAll', async (req, res, next) => {
   }
 });
 
-app.get('/api/:category', async (req, res, next) => {
+app.get('/api/category/:category', async (req, res, next) => {
   try {
     const { category } = req.params;
     if (!category) {
@@ -136,32 +214,38 @@ app.get('/api/products/:productId', async (req, res, next) => {
   }
 });
 
-app.get('/api/initialCart', async (req, res, next) => {
+app.get('/api/initialCart', authMiddleware, async (req, res, next) => {
+  console.log(req.user?.userId);
   try {
     const sql = `
       select *
       from "products"
       join "shoppingCartItems" using ("productId")
+      where "userId" = $1
     `;
-    const result = await db.query(sql);
+
+    const params = [req.user?.userId];
+    const result = await db.query(sql, params);
     res.json(result.rows);
+    console.log(result.rows);
   } catch (err) {
     next(err);
   }
 });
 
-app.post('/api/shoppingCartItems', async (req, res, next) => {
+app.post('/api/shoppingCartItems', authMiddleware, async (req, res, next) => {
   try {
     const { quantity, productId } = req.body;
     if (!quantity || !productId) {
-      throw new ClientError(400, 'task and isCompleted are required');
+      throw new ClientError(400, 'quantity and productId are required');
     }
     const sql = `
       insert into "shoppingCartItems" ("userId", "productId", "quantity")
-        values (1, $1, $2)
+        values ($1, $2, $3)
         returning *
     `;
-    const params = [productId, quantity];
+
+    const params = [req.user?.userId, productId, quantity];
     const result = await db.query(sql, params);
     const item = result.rows[0];
     res.status(201).json(item);
@@ -170,7 +254,7 @@ app.post('/api/shoppingCartItems', async (req, res, next) => {
   }
 });
 
-app.put('/api/shoppingCartItems', async (req, res, next) => {
+app.put('/api/shoppingCartItems', authMiddleware, async (req, res, next) => {
   try {
     const { quantity, productId } = req.body;
     if (!quantity || !productId) {
@@ -179,11 +263,11 @@ app.put('/api/shoppingCartItems', async (req, res, next) => {
     const sql = `
       update "shoppingCartItems"
       set "quantity" = $1
-      where "productId" = $2
+      where "productId" = $2 and "userId" = $3
       returning *
     `;
 
-    const params = [quantity, productId];
+    const params = [quantity, productId, req.user?.userId];
     const result = await db.query(sql, params);
     const [item] = result.rows;
     if (!item) {
@@ -195,26 +279,31 @@ app.put('/api/shoppingCartItems', async (req, res, next) => {
   }
 });
 
-app.delete('/api/shoppingCartItems/:productId', async (req, res, next) => {
-  try {
-    const { productId } = req.params;
-    if (!productId) {
-      throw new ClientError(400, 'productId is required');
-    }
-    const sql = `
+app.delete(
+  '/api/shoppingCartItems/:productId',
+  authMiddleware,
+  async (req, res, next) => {
+    try {
+      const { productId } = req.params;
+      if (!productId) {
+        throw new ClientError(400, 'productId is required');
+      }
+      const sql = `
       delete from "shoppingCartItems"
-      where "productId" = $1
+      where "productId" = $1 and "userId" = $2
       returning *;
     `;
-    const params = [productId];
-    const result = await db.query(sql, params);
-    const product = result.rows[0];
-    if (!product) throw new ClientError(404, `product ${productId} not found`);
-    res.status(204).send();
-  } catch (err) {
-    next(err);
+      const params = [productId, req.user?.userId];
+      const result = await db.query(sql, params);
+      const product = result.rows[0];
+      if (!product)
+        throw new ClientError(404, `product ${productId} not found`);
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
