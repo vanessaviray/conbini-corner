@@ -1,4 +1,27 @@
 import { Item, Product } from './data';
+import { User } from '../components/UserContext';
+
+const authKey = 'um.auth';
+
+export function saveAuth(user: User, token: string): void {
+  sessionStorage.setItem(authKey, JSON.stringify({ user, token }));
+}
+
+export function removeAuth(): void {
+  sessionStorage.removeItem(authKey);
+}
+
+export function readUser(): User | undefined {
+  const auth = sessionStorage.getItem(authKey);
+  if (!auth) return undefined;
+  return JSON.parse(auth).user;
+}
+
+export function readToken(): string | undefined {
+  const auth = sessionStorage.getItem(authKey);
+  if (!auth) return undefined;
+  return JSON.parse(auth).token;
+}
 
 export async function readAllProducts(): Promise<Product[]> {
   const response = await fetch('/api/allProducts');
@@ -19,7 +42,7 @@ export async function readFeaturedProductsAll(): Promise<Product[]> {
 }
 
 export async function readCategory(category): Promise<Product[]> {
-  const response = await fetch(`/api/${category}`);
+  const response = await fetch(`/api/category/${category}`);
   if (!response.ok) throw new Error(`fetch error, ${response.status}`);
   return await response.json();
 }
@@ -37,16 +60,24 @@ export async function readProduct(productId: number): Promise<Product> {
 }
 
 export async function readInitialCart() {
-  const response = await fetch('/api/initialCart');
+  const token = readToken();
+  const req = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await fetch('/api/initialCart', req);
   if (!response.ok) throw new Error(`fetch error, ${response.status}`);
   return await response.json();
 }
 
 export async function insertItem(item: Item): Promise<Item> {
+  const token = readToken();
   const req = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(item),
   };
@@ -56,10 +87,12 @@ export async function insertItem(item: Item): Promise<Item> {
 }
 
 export async function updateItem(item: Item): Promise<Item> {
+  const token = readToken();
   const req = {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(item),
   };
@@ -69,8 +102,10 @@ export async function updateItem(item: Item): Promise<Item> {
 }
 
 export async function deleteItem(productId: number): Promise<void> {
+  const token = readToken();
   const req = {
     method: 'DELETE',
+    Authorization: `Bearer ${token}`,
   };
   const res = await fetch(`/api/shoppingCartItems/${productId}`, req);
   if (!res.ok) throw new Error(`fetch Error ${res.status}`);

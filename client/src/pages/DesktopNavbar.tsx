@@ -9,8 +9,11 @@ import { RiAccountCircleLine } from 'react-icons/ri';
 import '../css/DesktopNavbar.css';
 import '../css/App.css';
 import { Popup } from '../components/Popup';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { CartContext } from '../components/CartContext';
+import { Modal } from '../components/Modal.tsx';
+import { IoClose } from 'react-icons/io5';
+import { useUser } from '../lib/useUser.ts';
 
 export function DesktopNavbar() {
   const [isSnacksOpen, setIsSnacksOpen] = useState(false);
@@ -20,7 +23,13 @@ export function DesktopNavbar() {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoginDisplay, setIsLoginDisplay] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
+  const { handleSignIn } = useUser();
+  const { cart } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,7 +37,8 @@ export function DesktopNavbar() {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
-      });
+      }),
+        [];
     }
 
     window.addEventListener('resize', handleResize);
@@ -55,7 +65,66 @@ export function DesktopNavbar() {
     navigate(`/subcategory/${buttonValue}`);
   }
 
-  const { cart } = useContext(CartContext);
+  async function handleSignUp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      setIsLoading(true);
+      const formData = new FormData(event.currentTarget);
+      console.log('formData:', formData);
+      const userData = Object.fromEntries(formData);
+      console.log('userData:', userData);
+      const req = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      };
+      const res = await fetch('/api/auth/sign-up', req);
+      console.log('res:', res);
+      if (!res.ok) {
+        throw new Error(`fetch Error ${res.status}`);
+      }
+      const user = await res.json();
+      console.log('Registered', user);
+      alert(
+        `Successfully registered ${user.username} as userId ${user.userId}.`
+      );
+      setIsLoginDisplay(true);
+    } catch (err) {
+      alert(`Error registering user: ${err}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    try {
+      setIsLoading(true);
+      const formData = new FormData(event.currentTarget);
+      const userData = Object.fromEntries(formData);
+      const req = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData),
+      };
+      const res = await fetch('/api/auth/sign-in', req);
+      if (!res.ok) {
+        throw new Error(`fetch Error ${res.status}`);
+      }
+      const { user, token } = await res.json();
+      handleSignIn(user, token);
+      console.log('Signed In', user);
+      console.log('Received token:', token);
+      setIsOpen(false);
+      setIsSignedIn(true);
+    } catch (err) {
+      alert(`Error signing in: ${err}`);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  // const { cart } = useContext(CartContext);
 
   return (
     <nav>
@@ -201,9 +270,90 @@ export function DesktopNavbar() {
           <div className="row items-center">
             <SearchBar />
             <div className="row">
-              <div className="ml-10">
-                <RiAccountCircleLine size="1.5em" />
-              </div>
+              {!isSignedIn ? (
+                <div
+                  className="ml-10"
+                  onClick={() => {
+                    setIsOpen(true);
+                    setIsLoginDisplay(true);
+                  }}>
+                  <RiAccountCircleLine size="1.5em" />
+                </div>
+              ) : (
+                <button>Log Out</button>
+              )}
+              <Modal
+                isOpen={isOpen}
+                onClose={() => {
+                  setIsOpen(false);
+                }}>
+                <div
+                  className="flex justify-end"
+                  onClick={() => {
+                    setIsOpen(false);
+                  }}>
+                  <IoClose size="1.5em" />
+                </div>
+                <div className="modal-contents">
+                  {isLoginDisplay ? (
+                    <div className="column flex items-start justify-between">
+                      <p>Login</p>
+                      <form onSubmit={handleLogin}>
+                        <p>Email Address</p>
+                        <input
+                          required
+                          name="emailAddress"
+                          className="block border border-gray-600 rounded p-2 h-8 w-full mb-2"
+                        />
+                        <p>Password</p>
+                        <input
+                          required
+                          name="password"
+                          className="block border border-gray-600 rounded p-2 h-8 w-full mb-2"
+                        />
+                        <button disabled={isLoading}>Login</button>
+                      </form>
+                      <div className="row">
+                        <p>Don't have an account?</p>
+                        <button
+                          onClick={() => {
+                            setIsLoginDisplay(!isLoginDisplay);
+                          }}>
+                          Sign up.
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="column flex items-start">
+                      <p>Create Account</p>
+                      <form onSubmit={handleSignUp}>
+                        <p>Email Address</p>
+                        <input
+                          required
+                          name="emailAddress"
+                          className="block border border-gray-600 rounded p-2 h-8 w-full mb-2"
+                        />
+                        <p>Password</p>
+                        <input
+                          required
+                          name="password"
+                          className="block border border-gray-600 rounded p-2 h-8 w-full mb-2"
+                        />
+                        <button>Create Account</button>
+                      </form>
+                      <div className="row">
+                        <p>Already have an account?</p>
+                        <button
+                          onClick={() => {
+                            setIsLoginDisplay(!isLoginDisplay);
+                          }}>
+                          Sign In.
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Modal>
               <div className="shopping-cart-icon ml-4">
                 <Link to={'shoppingCart'}>
                   <MdOutlineShoppingCart size="1.5em" />
@@ -218,4 +368,14 @@ export function DesktopNavbar() {
       <Outlet />
     </nav>
   );
+}
+
+{
+  /* <button
+  onClick={() => {
+    alert('Item was added to cart.');
+    setIsOpen(false);
+  }}>
+  Delete
+</button> */
 }

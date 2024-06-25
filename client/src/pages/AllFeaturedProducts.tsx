@@ -21,7 +21,7 @@ export function AllFeaturedProducts() {
       }
     }
     loadAllFeaturedProducts();
-  }, [products]);
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

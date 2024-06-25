@@ -25,7 +25,7 @@ export function Subcategory() {
       }
     }
     loadSubcategory();
-  }, [products]);
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

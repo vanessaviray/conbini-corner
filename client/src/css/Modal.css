@@ -1,0 +1,11 @@
+.modal-container {
+  width: 361px;
+  height: 400px;
+  border-radius: 10px;
+}
+
+.modal-contents {
+  display: flex;
+  padding: 36px;
+  height: 93%;
+}

@@ -21,7 +21,7 @@ export function AllProducts() {
       }
     }
     loadAllProducts();
-  }, [products]);
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
