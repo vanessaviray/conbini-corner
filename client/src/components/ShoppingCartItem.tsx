@@ -5,6 +5,8 @@ import '../css/ShoppingCartItem.css';
 import { toDollars } from '../lib/functions';
 import { LuMinus, LuPlus } from 'react-icons/lu';
 import { CartContext } from './CartContext';
+import { Modal } from './Modal';
+import { IoClose } from 'react-icons/io5';
 
 type Props = {
   productId: number;
@@ -15,6 +17,7 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
   const { removeFromCart, updateCart } = useContext(CartContext);
 
   const [product, setProduct] = useState<Product>();
+  const [isOpen, setIsOpen] = useState(false);
 
   async function loadProduct(productId: number) {
     try {
@@ -60,8 +63,7 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
     try {
       quantity -= 1;
       if (quantity === 0) {
-        deleteItem(product.productId);
-        removeFromCart(product);
+        setIsOpen(true);
       } else {
         const newItem: Item = {
           quantity,
@@ -79,6 +81,11 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
     return <div>Your shopping cart is empty</div>;
   }
 
+  function handleConfirm() {
+    handleRemoveItem(product);
+    setIsOpen(false);
+  }
+
   return (
     <>
       <div className="row item-container">
@@ -91,9 +98,46 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
             <p className="item-price">{toDollars(product.price)}</p>
             <button
               className="remove-item-button"
-              onClick={() => handleRemoveItem(product)}>
+              onClick={() => {
+                setIsOpen(true);
+              }}>
               Remove
             </button>
+            <Modal
+              modalContainer="remove-modal-container"
+              isOpen={isOpen}
+              onClose={() => {
+                setIsOpen(false);
+              }}>
+              <div
+                className="flex justify-end relative top-3 right-3"
+                onClick={() => {
+                  setIsOpen(false);
+                }}>
+                <IoClose size="1.5em" />
+              </div>
+              <div className="modal-contents">
+                <div className="column flex items-center justify-between text-center">
+                  <p>
+                    Are you sure you want to remove this item from your cart?
+                  </p>
+                  <div className="row">
+                    <button
+                      className="remove-confirmation-modal-buttons mr-2"
+                      onClick={handleConfirm}>
+                      Remove
+                    </button>
+                    <button
+                      className="cancel-confirmation-modal-buttons ml-2"
+                      onClick={() => {
+                        setIsOpen(false);
+                      }}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
           </div>
           <div className="quantity-button-subtotal">
             <p className="quantity-label">Quantity</p>

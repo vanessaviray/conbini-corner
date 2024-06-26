@@ -282,6 +282,7 @@ export function DesktopNavbar() {
                 </button>
               )}
               <Modal
+                modalContainer="account-modal-container"
                 isOpen={isOpen}
                 onClose={() => {
                   setIsOpen(false);
@@ -295,10 +296,10 @@ export function DesktopNavbar() {
                 </div>
                 <div className="modal-contents">
                   {isLoginDisplay ? (
-                    <div className="column flex items-start justify-between">
-                      <p className="modal-header">Login</p>
-                      <form onSubmit={handleLogin}>
-                        <div className="mb-6">
+                    <div className="column flex items-start justify-between w-full">
+                      <p className="modal-header w-full">Login</p>
+                      <form className="w-full" onSubmit={handleLogin}>
+                        <div className="mb-6 relative top-2 w-full">
                           <p className="mb-2">Email Address</p>
                           <input
                             required
@@ -306,7 +307,7 @@ export function DesktopNavbar() {
                             className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                           />
                         </div>
-                        <div className="mb-10">
+                        <div className="mb-10 relative top-1">
                           <p className="mb-2">Password</p>
                           <input
                             required
@@ -314,7 +315,9 @@ export function DesktopNavbar() {
                             className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                           />
                         </div>
-                        <button className="form-button" disabled={isLoading}>
+                        <button
+                          className="form-button relative bottom-2"
+                          disabled={isLoading}>
                           LOGIN
                         </button>
                       </form>
@@ -330,10 +333,10 @@ export function DesktopNavbar() {
                       </div>
                     </div>
                   ) : (
-                    <div className="column flex items-start justify-between">
-                      <p className="modal-header">Create Account</p>
-                      <form onSubmit={handleSignUp}>
-                        <div className="mb-6">
+                    <div className="column flex items-start justify-between w-full">
+                      <p className="modal-header w-full">Create Account</p>
+                      <form className="w-full" onSubmit={handleSignUp}>
+                        <div className="mb-6 relative top-2 w-full">
                           <p className="mb-2">Email Address</p>
                           <input
                             required
@@ -341,7 +344,7 @@ export function DesktopNavbar() {
                             className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                           />
                         </div>
-                        <div className="mb-10">
+                        <div className="mb-10 relative top-1">
                           <p className="mb-2">Password</p>
                           <input
                             required
@@ -349,7 +352,9 @@ export function DesktopNavbar() {
                             className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                           />
                         </div>
-                        <button className="form-button">CREATE ACCOUNT</button>
+                        <button className="form-button relative bottom-2">
+                          CREATE ACCOUNT
+                        </button>
                       </form>
                       <div className="row">
                         <p>Already have an account?</p>

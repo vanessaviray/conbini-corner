@@ -2,7 +2,19 @@ dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.modal-container {
+.account-modal-container {
+  width: 361px;
+  height: 370px;
+  border-radius: 10px;
+}
+
+.remove-modal-container {
+  width: 361px;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.confirmation-modal-container {
   width: 361px;
   height: 400px;
   border-radius: 10px;
@@ -14,7 +26,7 @@ dialog::backdrop {
   padding-left: 36px;
   padding-right: 36px;
   padding-top: 20px;
-  height: 93%;
+  height: 88%;
 }
 
 .modal-header {
@@ -38,4 +50,26 @@ dialog::backdrop {
 .modal-display-button {
   color: #1760a4;
   text-decoration: underline;
+}
+
+.remove-confirmation-modal-buttons {
+  color: white;
+  background-color: #cb1111;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.cancel-confirmation-modal-buttons {
+  color: #1f1f1f;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  letter-spacing: 1px;
 }

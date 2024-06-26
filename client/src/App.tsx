@@ -15,6 +15,7 @@ import { AllProducts } from './pages/AllProducts.tsx';
 import { AllFeaturedProducts } from './pages/AllFeaturedProducts.tsx';
 import { UserProvider } from './components/UserContext';
 import { useUser } from './lib/useUser.ts';
+import { SearchResults } from './pages/SearchResults.tsx';
 
 export default function App() {
   const { user } = useUser();
@@ -93,6 +94,10 @@ export default function App() {
                 path="allFeaturedProducts"
                 element={<AllFeaturedProducts />}
               />
+              <Route
+                path="searchResults/:searchInput"
+                element={<SearchResults />}
+              />
             </Route>
           ) : (
             <Route path="/" element={<DesktopNavbar />}>
@@ -112,6 +117,10 @@ export default function App() {
               <Route
                 path="allFeaturedProducts"
                 element={<AllFeaturedProducts />}
+              />
+              <Route
+                path="searchResults/:searchInput"
+                element={<SearchResults />}
               />
             </Route>
           )}

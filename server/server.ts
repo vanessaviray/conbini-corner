@@ -192,6 +192,29 @@ app.get('/api/subcategory/:subcategory', async (req, res, next) => {
   }
 });
 
+app.get('/api/searchResults/:searchInput', async (req, res, next) => {
+  try {
+    const { searchInput } = req.params;
+    if (!searchInput) {
+      throw new ClientError(400, 'Search input is required');
+    }
+    const sql = `
+      SELECT *
+      FROM "products"
+      WHERE "category" ILIKE $1
+         OR "name" ILIKE $1
+         OR "subcategory" ILIKE $1
+         OR "description" ILIKE $1
+    `;
+
+    const params = [`%${searchInput}%`];
+    const result = await db.query(sql, params);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('/api/products/:productId', async (req, res, next) => {
   try {
     const { productId } = req.params;
