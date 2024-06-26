@@ -2,12 +2,13 @@ import { ReactNode, useEffect, useRef } from 'react';
 import '../css/Modal.css';
 
 type Props = {
+  modalContainer: string;
   children: ReactNode;
   isOpen: boolean;
   onClose: () => void;
 };
 
-export function Modal({ children, isOpen, onClose }: Props) {
+export function Modal({ children, isOpen, onClose, modalContainer }: Props) {
   const modal = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export function Modal({ children, isOpen, onClose }: Props) {
   }
 
   return (
-    <dialog ref={modal} onKeyDown={handleKeyDown} className="modal-container">
+    <dialog ref={modal} onKeyDown={handleKeyDown} className={modalContainer}>
       {children}
     </dialog>
   );
