@@ -7,34 +7,16 @@ import { useEffect, useState } from 'react';
 import { MobileNavbar } from './pages/MobileNavbar.tsx';
 import { CartProvider } from './components/CartContext.tsx';
 import { ShoppingCart } from './pages/ShoppingCart.tsx';
-// import { Item } from './lib/data.ts';
-// import { readInitialCart } from './lib/read.ts';
 import { Category } from './pages/Category.tsx';
 import { Subcategory } from './pages/Subcategory.tsx';
 import { AllProducts } from './pages/AllProducts.tsx';
 import { AllFeaturedProducts } from './pages/AllFeaturedProducts.tsx';
 import { UserProvider } from './components/UserContext';
-import { useUser } from './lib/useUser.ts';
 import { SearchResults } from './pages/SearchResults.tsx';
+import { Checkout } from './pages/Checkout.tsx';
 
 export default function App() {
-  const { user } = useUser();
   const [isMobile, setMobile] = useState(window.innerWidth < 768);
-  console.log('Log app user', user);
-
-  // useEffect(() => {
-  //   async function loadInitialCart() {
-  //     try {
-  //       const initialCart = await readInitialCart();
-  //       setCartContext(initialCart);
-  //     } catch (err) {
-  //       console.error('read error', err);
-  //     }
-  //   }
-  //   if (user) {
-  //     loadInitialCart();
-  //   }
-  // }, [user]);
 
   useEffect(() => {
     window.addEventListener('resize', updateMedia);
@@ -44,32 +26,6 @@ export default function App() {
   function updateMedia() {
     setMobile(window.innerWidth < 768);
   }
-
-  // function addToCart(item: Item) {
-  //   const updatedCart = [...cartContext, item];
-  //   setCartContext(updatedCart);
-  // }
-
-  // function updateCart(item: Item) {
-  //   const updatedCart = cartContext.map((cartItem) =>
-  //     item.productId === cartItem.productId ? item : cartItem
-  //   );
-  //   setCartContext(updatedCart);
-  // }
-
-  // function removeFromCart(item: Item) {
-  //   const updatedCart = cartContext.filter(
-  //     (cartItem) => cartItem.productId !== item.productId
-  //   );
-  //   setCartContext(updatedCart);
-  // }
-
-  // const cartValue: CartValue = {
-  //   cart: cartContext,
-  //   addToCart: addToCart,
-  //   updateCart: updateCart,
-  //   removeFromCart: removeFromCart,
-  // };
 
   return (
     <UserProvider>
@@ -98,6 +54,7 @@ export default function App() {
                 path="searchResults/:searchInput"
                 element={<SearchResults />}
               />
+              <Route path="checkout" element={<Checkout />} />
             </Route>
           ) : (
             <Route path="/" element={<DesktopNavbar />}>
@@ -122,6 +79,7 @@ export default function App() {
                 path="searchResults/:searchInput"
                 element={<SearchResults />}
               />
+              <Route path="checkout" element={<Checkout />} />
             </Route>
           )}
         </Routes>

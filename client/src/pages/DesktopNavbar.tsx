@@ -156,7 +156,7 @@ export function DesktopNavbar() {
                   onClose={() => {
                     setIsSnacksOpen(false);
                   }}>
-                  <ul>
+                  <ul className="navbar-popup">
                     <li>
                       <button
                         value="Chocolate"
@@ -198,7 +198,7 @@ export function DesktopNavbar() {
                   onClose={() => {
                     setIsPantryOpen(false);
                   }}>
-                  <ul>
+                  <ul className="navbar-popup">
                     <li>
                       <button value="Noodles" onClick={handleSubcategoryClick}>
                         Noodles
@@ -242,7 +242,7 @@ export function DesktopNavbar() {
                   onClose={() => {
                     setIsDrinksOpen(false);
                   }}>
-                  <ul>
+                  <ul className="navbar-popup">
                     <li>
                       <button
                         value="Bottled Drinks"
@@ -380,7 +380,7 @@ export function DesktopNavbar() {
           </div>
         </div>
       </div>
-      <div className="outline"></div>
+      <div className="outline-nav"></div>
       <Outlet />
     </nav>
   );
