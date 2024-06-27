@@ -6,12 +6,6 @@ import argon2 from 'argon2';
 import jwt from 'jsonwebtoken';
 import { ClientError, errorMiddleware, authMiddleware } from './lib/index.js';
 
-type User = {
-  userId: number;
-  emailAddress: string;
-  hashedPassword: string;
-};
-
 type Auth = {
   emailAddress: string;
   password: string;
@@ -321,6 +315,33 @@ app.delete(
       const product = result.rows[0];
       if (!product)
         throw new ClientError(404, `product ${productId} not found`);
+      res.status(204).send();
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+app.delete(
+  '/api/shoppingCartItems/user/:userId',
+  authMiddleware,
+  async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+      if (!userId) {
+        throw new ClientError(400, 'userId is required');
+      }
+      const sql = `
+        delete from "shoppingCartItems"
+        where "userId" = $1
+        returning *;
+      `;
+      const params = [userId];
+      const result = await db.query(sql, params);
+      const deletedItems = result.rows;
+      if (deletedItems.length === 0) {
+        throw new ClientError(404, `No items found for user ${userId}`);
+      }
       res.status(204).send();
     } catch (err) {
       next(err);

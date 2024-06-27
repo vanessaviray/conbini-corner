@@ -116,3 +116,13 @@ export async function deleteItem(productId: number): Promise<void> {
   const res = await fetch(`/api/shoppingCartItems/${productId}`, req);
   if (!res.ok) throw new Error(`fetch Error ${res.status}`);
 }
+
+export async function deleteCart(userId: number): Promise<void> {
+  const token = readToken();
+  const req = {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const res = await fetch(`/api/shoppingCartItems/user/${userId}`, req);
+  if (!res.ok) throw new Error(`fetch Error ${res.status}`);
+}

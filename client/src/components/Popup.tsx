@@ -20,7 +20,7 @@ export function Popup({ isOpen, positionTo, onClose, children }: Props) {
   return createPortal(
     <>
       <div onClick={onClose} className="backdrop"></div>
-      <div style={{ top: top, left: left, position: 'absolute' }}>
+      <div style={{ top: top, left: left }} className="popup-container">
         {children}
       </div>
     </>,

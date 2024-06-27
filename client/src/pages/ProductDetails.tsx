@@ -87,7 +87,7 @@ export function ProductDetails() {
       if (!itemExists) {
         await insertItem(newItem);
         addToCart(newItem);
-        alert(`${name} was added to cart.`);
+        handleShowAlert();
       }
 
       setQuantity(1);
@@ -99,7 +99,7 @@ export function ProductDetails() {
 
   const handleShowAlert = () => {
     setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000); // Example duration
+    setTimeout(() => setShowAlert(false), 3000);
   };
 
   const {
@@ -113,7 +113,7 @@ export function ProductDetails() {
   } = product;
 
   return (
-    <div className="container">
+    <div className="product-details-container">
       <div className="breadcrumbs row">
         <Link to={'/'}>
           <button className="breadcrumb-button">Home</button>

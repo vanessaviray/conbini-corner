@@ -37,7 +37,7 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
   }, [productId]);
 
   async function handleRemoveItem(product) {
-    if (!product?.productId) throw new Error('Should never happen');
+    if (!product?.productId) throw new Error('cannot find productId');
     try {
       await deleteItem(product.productId);
       removeFromCart(product);

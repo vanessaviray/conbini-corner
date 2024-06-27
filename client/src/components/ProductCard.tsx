@@ -51,7 +51,7 @@ export function ProductCard({ product, currentPage }: Props) {
 
   const handleShowAlert = () => {
     setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000); // Example duration
+    setTimeout(() => setShowAlert(false), 3000);
   };
 
   let productCardClass = '';

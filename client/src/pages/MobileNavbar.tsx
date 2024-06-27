@@ -110,8 +110,6 @@ export function MobileNavbar() {
       }
       const { user, token } = await res.json();
       handleSignIn(user, token);
-      console.log('Signed In', user);
-      console.log('Received token:', token);
       setIsOpen(false);
     } catch (err) {
       alert(`Error signing in: ${err}`);
@@ -141,7 +139,6 @@ export function MobileNavbar() {
             Log Out
           </button>
         )}
-        {/* <RiAccountCircleLine size="1.5em" /> */}
         <Modal
           modalContainer="account-modal-container"
           isOpen={isOpen}
