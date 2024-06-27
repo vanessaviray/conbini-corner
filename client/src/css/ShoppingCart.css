@@ -55,6 +55,10 @@
 }
 
 @media screen and (width >= 768px) {
+  .shopping-cart-container {
+    max-width: 1180px;
+  }
+
   .shopping-cart-title {
     font-size: 30px;
   }

@@ -21,7 +21,7 @@ export function ShoppingCart() {
   }
 
   return (
-    <div className="container">
+    <div className="container shopping-cart-container">
       <p className="shopping-cart-title">Shopping Cart</p>
       <div className="line"></div>
       <div className="products-order-summary row flex flex-wrap">

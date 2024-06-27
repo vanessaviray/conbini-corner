@@ -28,7 +28,11 @@ export function LandingPage() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (error) {

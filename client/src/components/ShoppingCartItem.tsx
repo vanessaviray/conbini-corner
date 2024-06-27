@@ -80,7 +80,7 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
   }
 
   if (!product) {
-    return <div>Your shopping cart is empty</div>;
+    return <div className="ml-3">Your item is loading...</div>;
   }
 
   function handleConfirm() {
@@ -89,8 +89,7 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
   }
 
   return (
-    // <Link to={`/details/${productId}`}>
-    <div>
+    <div className="shopping-cart-container">
       <div className="row item-container">
         <div
           className="cart-image-wrapper cursor-pointer"
