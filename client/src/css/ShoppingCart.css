@@ -1,3 +1,10 @@
+.shopping-cart-container {
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-bottom: 20px;
+}
+
 .shopping-cart-title {
   font-family: 'Tilt Warp', sans-serif;
   font-size: 16px;
@@ -55,6 +62,12 @@
 }
 
 @media screen and (width >= 768px) {
+  .shopping-cart-container {
+    max-width: 1180px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .shopping-cart-title {
     font-size: 30px;
   }

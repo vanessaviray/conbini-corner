@@ -9,6 +9,7 @@ import { toDollars } from '../lib/functions';
 import { LuPlus } from 'react-icons/lu';
 import { LuMinus } from 'react-icons/lu';
 import { CartContext } from '../components/CartContext';
+import Alert from '../components/Alert';
 
 export function ProductDetails() {
   const [product, setProduct] = useState<Product>();
@@ -16,6 +17,7 @@ export function ProductDetails() {
   const [error, setError] = useState<unknown>();
   const [displayedImageUrl, setDisplayedImageUrl] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(1);
+  const [showAlert, setShowAlert] = useState(false);
 
   const { productId } = useParams();
   const { addToCart, cart, updateCart } = useContext(CartContext);
@@ -76,7 +78,7 @@ export function ProductDetails() {
           newItem.quantity = cart[i].quantity + quantity;
           updateCart(newItem);
           await updateItem(newItem);
-          alert(`${name} was added to cart.`);
+          handleShowAlert();
           itemExists = true;
           break;
         }
@@ -85,7 +87,7 @@ export function ProductDetails() {
       if (!itemExists) {
         await insertItem(newItem);
         addToCart(newItem);
-        alert(`${name} was added to cart.`);
+        handleShowAlert();
       }
 
       setQuantity(1);
@@ -94,6 +96,11 @@ export function ProductDetails() {
       setError(err);
     }
   }
+
+  const handleShowAlert = () => {
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000);
+  };
 
   const {
     category,
@@ -106,7 +113,7 @@ export function ProductDetails() {
   } = product;
 
   return (
-    <div className="container">
+    <div className="product-details-container">
       <div className="breadcrumbs row">
         <Link to={'/'}>
           <button className="breadcrumb-button">Home</button>
@@ -169,6 +176,9 @@ export function ProductDetails() {
             <button className="add-to-cart-btn" onClick={handleAddToCart}>
               ADD TO CART
             </button>
+            {showAlert && (
+              <Alert message={'Item was added to cart.'} duration={1500} />
+            )}
           </div>
           <p className="description-heading">Description</p>
           <p className="description">{description}</p>

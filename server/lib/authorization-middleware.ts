@@ -10,7 +10,6 @@ export function authMiddleware(
   res: Response,
   next: NextFunction
 ): void {
-  console.log('I got here');
   // The token will be in the Authorization header with the format `Bearer ${token}`
   const token = req.get('authorization')?.split('Bearer ')[1];
   if (!token) {

@@ -8,6 +8,7 @@ export type CartValue = {
   addToCart: (item: Item) => void;
   updateCart: (item: Item) => void;
   removeFromCart: (item: Item) => void;
+  emptyOutCart: () => void;
 };
 
 const defaultCartValue: CartValue = {
@@ -15,6 +16,7 @@ const defaultCartValue: CartValue = {
   addToCart: () => undefined,
   updateCart: () => undefined,
   removeFromCart: () => undefined,
+  emptyOutCart: () => undefined,
 };
 
 export const CartContext = createContext(defaultCartValue);
@@ -62,11 +64,17 @@ export function CartProvider({ children }: Props) {
     setCartContext(updatedCart);
   }
 
+  function emptyOutCart() {
+    const updatedCart = [];
+    setCartContext(updatedCart);
+  }
+
   const cartValue: CartValue = {
     cart: cartContext,
     addToCart: addToCart,
     updateCart: updateCart,
     removeFromCart: removeFromCart,
+    emptyOutCart: emptyOutCart,
   };
 
   return (

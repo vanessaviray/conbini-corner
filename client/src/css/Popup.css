@@ -1,10 +1,8 @@
+.popup-container {
+  position: absolute;
+}
+
 ul {
-  /* padding-left: 20px;
-  padding-right: 50px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  list-style-type: none;
-  text-align: start; */
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.15);
   background-color: white;
   border-bottom-left-radius: 5px;

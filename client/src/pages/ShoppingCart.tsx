@@ -4,11 +4,14 @@ import { ShoppingCartItem } from '../components/ShoppingCartItem';
 import { useContext } from 'react';
 import { CartContext } from '../components/CartContext';
 import { toDollars } from '../lib/functions';
+import { useNavigate } from 'react-router-dom';
+import { deleteCart } from '../lib/read';
+import { UserContext } from '../components/UserContext';
 
 export function ShoppingCart() {
-  const { cart } = useContext(CartContext);
-
-  console.log('cart:', cart);
+  const { cart, emptyOutCart } = useContext(CartContext);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   let totalQty = 0;
   let subtotal = 0;
@@ -18,8 +21,19 @@ export function ShoppingCart() {
     subtotal += cart[i].price * cart[i].quantity;
   }
 
+  async function handleCheckout() {
+    if (!user?.userId) throw new Error('cannot find userId');
+    try {
+      await deleteCart(user.userId);
+      emptyOutCart();
+      navigate('/checkout');
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
-    <div className="container">
+    <div className="shopping-cart-container">
       <p className="shopping-cart-title">Shopping Cart</p>
       <div className="line"></div>
       <div className="products-order-summary row flex flex-wrap">
@@ -66,7 +80,9 @@ export function ShoppingCart() {
               <p>{toDollars(subtotal + subtotal)}</p>
             </div>
           </div>
-          <button className="checkout-button">CHECKOUT</button>
+          <button onClick={handleCheckout} className="checkout-button">
+            CHECKOUT
+          </button>
         </div>
       </div>
     </div>

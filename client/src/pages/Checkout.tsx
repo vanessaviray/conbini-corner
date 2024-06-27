@@ -1,8 +1,6 @@
 import '../css/Checkout.css';
 
 export function Checkout() {
-  // const now = new Date().toLocaleDateString();
-
   return (
     <div className="container">
       <div className="column items-center mt-20">

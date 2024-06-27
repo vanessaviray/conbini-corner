@@ -110,8 +110,6 @@ export function MobileNavbar() {
       }
       const { user, token } = await res.json();
       handleSignIn(user, token);
-      console.log('Signed In', user);
-      console.log('Received token:', token);
       setIsOpen(false);
     } catch (err) {
       alert(`Error signing in: ${err}`);
@@ -141,7 +139,6 @@ export function MobileNavbar() {
             Log Out
           </button>
         )}
-        {/* <RiAccountCircleLine size="1.5em" /> */}
         <Modal
           modalContainer="account-modal-container"
           isOpen={isOpen}
@@ -173,6 +170,7 @@ export function MobileNavbar() {
                     <input
                       required
                       name="password"
+                      type="password"
                       className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                     />
                   </div>
@@ -210,6 +208,7 @@ export function MobileNavbar() {
                     <input
                       required
                       name="password"
+                      type="password"
                       className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                     />
                   </div>
@@ -258,7 +257,7 @@ export function MobileNavbar() {
               onClose={() => {
                 setIsSnacksOpen(false);
               }}>
-              <ul>
+              <ul className="navbar-popup">
                 <li>
                   <button value="Chocolate" onClick={handleSubcategoryClick}>
                     Chocolate
@@ -294,7 +293,7 @@ export function MobileNavbar() {
               onClose={() => {
                 setIsPantryOpen(false);
               }}>
-              <ul>
+              <ul className="navbar-popup">
                 <li>
                   <button value="Noodles" onClick={handleSubcategoryClick}>
                     Noodles
@@ -332,7 +331,7 @@ export function MobileNavbar() {
               onClose={() => {
                 setIsDrinksOpen(false);
               }}>
-              <ul>
+              <ul className="navbar-popup-right">
                 <li>
                   <button
                     value="Bottled Drinks"

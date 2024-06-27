@@ -28,7 +28,11 @@ export function LandingPage() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="container">
+        <div>Loading...</div>
+      </div>
+    );
   }
 
   if (error) {
@@ -45,9 +49,9 @@ export function LandingPage() {
         <Link to={'subcategory/Noodles'} className="card-one">
           <img src="/images/marketing/card-1.png" />
         </Link>
-        <Link to={'allProducts'} className="carousel">
+        <div className="carousel">
           <Carousel images={images} />
-        </Link>
+        </div>
         <div className="cards-two-and-three">
           <Link to={'category/Drinks'} className="card-two">
             <img src="/images/marketing/card-2.png" />

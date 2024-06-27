@@ -64,6 +64,13 @@
   width: 150px;
 }
 
+.navbar-popup-right {
+  position: relative;
+  right: 40px;
+  text-wrap: nowrap;
+  width: 136px;
+}
+
 .outline-nav {
   height: 1px;
   width: 100%;

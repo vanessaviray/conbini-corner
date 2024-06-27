@@ -1,0 +1,20 @@
+.alert {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: #2992dd;
+  color: white;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.alert-message {
+  text-wrap: nowrap;
+}

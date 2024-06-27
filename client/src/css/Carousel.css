@@ -1,8 +1,37 @@
 .displayed-img-wrapper {
+  position: relative;
   max-width: 100%;
-  height: 300px;
+  height: 180px;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.promotion-text-container {
+  position: absolute;
+  z-index: 2;
+  color: white;
+  top: 20%;
+  left: 5%;
+}
+
+.promotion-subtext {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.promotion-text {
+  font-family: 'Tilt Warp', sans-serif;
+  font-size: 28px;
+  width: 90%;
+  line-height: 2.25rem;
+}
+
+.carousel-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
 }
 
 .displayed-img {
@@ -21,4 +50,23 @@
 .dots {
   margin-left: 10px;
   margin-right: 10px;
+}
+
+@media screen and (width >= 768px) {
+  .displayed-img-wrapper {
+    height: 300px;
+  }
+
+  .promotion-text-container {
+    top: 45%;
+  }
+
+  .promotion-subtext {
+    margin-bottom: 20px;
+  }
+
+  .promotion-text {
+    font-size: 36px;
+    line-height: 2.75rem;
+  }
 }
