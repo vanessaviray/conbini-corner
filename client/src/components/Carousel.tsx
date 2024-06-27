@@ -33,6 +33,11 @@ export function Carousel({ images }: CarouselProps) {
   return (
     <>
       <div className="displayed-img-wrapper">
+        <div className="promotion-text-container">
+          <p className="promotion-subtext">{images[activeIndex].subtext}</p>
+          <p className="promotion-text">{images[activeIndex].text}</p>
+        </div>
+        <div className="carousel-overlay"></div>
         <img
           className="displayed-img"
           src={images[activeIndex].src}
