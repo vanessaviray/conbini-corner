@@ -4,9 +4,11 @@ import { ShoppingCartItem } from '../components/ShoppingCartItem';
 import { useContext } from 'react';
 import { CartContext } from '../components/CartContext';
 import { toDollars } from '../lib/functions';
+import { useNavigate } from 'react-router-dom';
 
 export function ShoppingCart() {
   const { cart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   console.log('cart:', cart);
 
@@ -66,7 +68,11 @@ export function ShoppingCart() {
               <p>{toDollars(subtotal + subtotal)}</p>
             </div>
           </div>
-          <button className="checkout-button">CHECKOUT</button>
+          <button
+            onClick={() => navigate('/checkout')}
+            className="checkout-button">
+            CHECKOUT
+          </button>
         </div>
       </div>
     </div>

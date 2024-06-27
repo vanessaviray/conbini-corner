@@ -312,6 +312,7 @@ export function DesktopNavbar() {
                           <input
                             required
                             name="password"
+                            type="password"
                             className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                           />
                         </div>
@@ -349,6 +350,7 @@ export function DesktopNavbar() {
                           <input
                             required
                             name="password"
+                            type="password"
                             className="block border border-gray-300 rounded p-2 h-8 w-full mb-2"
                           />
                         </div>

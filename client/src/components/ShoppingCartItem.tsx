@@ -7,6 +7,7 @@ import { LuMinus, LuPlus } from 'react-icons/lu';
 import { CartContext } from './CartContext';
 import { Modal } from './Modal';
 import { IoClose } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   productId: number;
@@ -15,6 +16,7 @@ type Props = {
 
 export function ShoppingCartItem({ productId, quantity }: Props) {
   const { removeFromCart, updateCart } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const [product, setProduct] = useState<Product>();
   const [isOpen, setIsOpen] = useState(false);
@@ -87,15 +89,26 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
   }
 
   return (
-    <>
+    // <Link to={`/details/${productId}`}>
+    <div>
       <div className="row item-container">
-        <div className="cart-image-wrapper">
+        <div
+          className="cart-image-wrapper cursor-pointer"
+          onClick={() => {
+            navigate(`/details/${productId}`);
+          }}>
           <img className="cart-image" src={product.defaultImageUrl} />
         </div>
         <div className="item-info row">
           <div className="name-price-remove">
-            <p className="item-name">{product.name}</p>
-            <p className="item-price">{toDollars(product.price)}</p>
+            <div
+              className="cursor-pointer"
+              onClick={() => {
+                navigate(`/details/${productId}`);
+              }}>
+              <p className="item-name">{product.name}</p>
+              <p className="item-price">{toDollars(product.price)}</p>
+            </div>
             <button
               className="remove-item-button"
               onClick={() => {
@@ -166,6 +179,6 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
         </div>
       </div>
       <div className="item-line"></div>
-    </>
+    </div>
   );
 }

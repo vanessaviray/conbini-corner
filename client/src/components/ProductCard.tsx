@@ -1,10 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import { toDollars } from '../lib/functions.ts';
 import { Item, Product } from '../lib/data.ts';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CartContext } from './CartContext.tsx';
 import { insertItem, updateItem } from '../lib/read.ts';
 import '../css/LandingPage.css';
+import Alert from './Alert.tsx';
 
 type Props = {
   product: Product;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export function ProductCard({ product, currentPage }: Props) {
+  const [showAlert, setShowAlert] = useState(false);
   const { productId, name, price, defaultImageUrl } = product;
   const { addToCart, cart, updateCart } = useContext(CartContext);
   const location = useLocation();
@@ -31,7 +33,7 @@ export function ProductCard({ product, currentPage }: Props) {
           newItem.quantity = cart[i].quantity + 1;
           updateCart(newItem);
           await updateItem(newItem);
-          alert(`Another ${name} was added to cart.`);
+          handleShowAlert();
           itemExists = true;
           break;
         }
@@ -40,12 +42,17 @@ export function ProductCard({ product, currentPage }: Props) {
       if (!itemExists) {
         await insertItem(newItem);
         addToCart(newItem);
-        alert(`${name} was added to cart.`);
+        handleShowAlert();
       }
     } catch (error) {
       console.error('Error adding to cart:', error);
     }
   }
+
+  const handleShowAlert = () => {
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000); // Example duration
+  };
 
   let productCardClass = '';
 
@@ -70,6 +77,9 @@ export function ProductCard({ product, currentPage }: Props) {
         <button className="add-to-cart-button" onClick={handleAddToCart}>
           ADD TO CART
         </button>
+        {showAlert && (
+          <Alert message={'Item was added to cart.'} duration={1500} />
+        )}
         <Link to={`details/${productId}`}>
           <div className="product-text">
             <h5 className="product-name">{name}</h5>
