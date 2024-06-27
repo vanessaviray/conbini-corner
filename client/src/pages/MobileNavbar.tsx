@@ -260,7 +260,7 @@ export function MobileNavbar() {
               onClose={() => {
                 setIsSnacksOpen(false);
               }}>
-              <ul>
+              <ul className="navbar-popup">
                 <li>
                   <button value="Chocolate" onClick={handleSubcategoryClick}>
                     Chocolate
@@ -296,7 +296,7 @@ export function MobileNavbar() {
               onClose={() => {
                 setIsPantryOpen(false);
               }}>
-              <ul>
+              <ul className="navbar-popup">
                 <li>
                   <button value="Noodles" onClick={handleSubcategoryClick}>
                     Noodles
@@ -334,7 +334,7 @@ export function MobileNavbar() {
               onClose={() => {
                 setIsDrinksOpen(false);
               }}>
-              <ul>
+              <ul className="navbar-popup-right">
                 <li>
                   <button
                     value="Bottled Drinks"

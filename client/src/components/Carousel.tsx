@@ -5,6 +5,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 import { type Image } from '../lib/data.ts';
 import { useCallback, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type CarouselProps = {
   images: Image[];
@@ -22,7 +23,7 @@ export function Carousel({ images }: CarouselProps) {
   }, [images.length]);
 
   useEffect(() => {
-    const timerId = setInterval(nextImage, 3000);
+    const timerId = setInterval(nextImage, 4000);
     return () => clearTimeout(timerId);
   }, [nextImage]);
 
@@ -32,18 +33,20 @@ export function Carousel({ images }: CarouselProps) {
 
   return (
     <>
-      <div className="displayed-img-wrapper">
-        <div className="promotion-text-container">
-          <p className="promotion-subtext">{images[activeIndex].subtext}</p>
-          <p className="promotion-text">{images[activeIndex].text}</p>
+      <Link to={'allProducts'}>
+        <div className="displayed-img-wrapper">
+          <div className="promotion-text-container">
+            <p className="promotion-subtext">{images[activeIndex].subtext}</p>
+            <p className="promotion-text">{images[activeIndex].text}</p>
+          </div>
+          <div className="carousel-overlay"></div>
+          <img
+            className="displayed-img"
+            src={images[activeIndex].src}
+            alt={images[activeIndex].alt}
+          />
         </div>
-        <div className="carousel-overlay"></div>
-        <img
-          className="displayed-img"
-          src={images[activeIndex].src}
-          alt={images[activeIndex].alt}
-        />
-      </div>
+      </Link>
       <div className="row carousel-controls">
         <button onClick={prevImage}>
           <IoIosArrowBack color="B0B0B0" />
