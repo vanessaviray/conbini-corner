@@ -3,7 +3,6 @@ import { toDollars } from '../lib/functions.ts';
 import { Item, Product } from '../lib/data.ts';
 import { useContext, useState } from 'react';
 import { CartContext } from './CartContext.tsx';
-import { insertItem, updateItem } from '../lib/read.ts';
 import '../css/LandingPage.css';
 import Alert from './Alert.tsx';
 
@@ -15,7 +14,7 @@ type Props = {
 export function ProductCard({ product, currentPage }: Props) {
   const [showAlert, setShowAlert] = useState(false);
   const { productId, name, price, defaultImageUrl } = product;
-  const { addToCart, cart, updateCart } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
   const location = useLocation();
 
   async function handleAddToCart() {
@@ -26,24 +25,8 @@ export function ProductCard({ product, currentPage }: Props) {
         ...product,
       };
 
-      let itemExists = false;
-
-      for (let i = 0; i < cart.length; i++) {
-        if (productId && +productId === cart[i].productId) {
-          newItem.quantity = cart[i].quantity + 1;
-          updateCart(newItem);
-          await updateItem(newItem);
-          handleShowAlert();
-          itemExists = true;
-          break;
-        }
-      }
-
-      if (!itemExists) {
-        await insertItem(newItem);
-        addToCart(newItem);
-        handleShowAlert();
-      }
+      addToCart(newItem);
+      handleShowAlert();
     } catch (error) {
       console.error('Error adding to cart:', error);
     }

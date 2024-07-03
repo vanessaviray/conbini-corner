@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
-import { deleteItem, readProduct, updateItem } from '../lib/read';
-import { Product, Item } from '../lib/data';
+import { readProduct } from '../lib/read';
+import { Product } from '../lib/data';
 import '../css/ShoppingCartItem.css';
 import { toDollars } from '../lib/functions';
 import { LuMinus, LuPlus } from 'react-icons/lu';
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export function ShoppingCartItem({ productId, quantity }: Props) {
-  const { removeFromCart, updateCart } = useContext(CartContext);
+  const { removeFromCart, updateQuantity } = useContext(CartContext);
   const navigate = useNavigate();
 
   const [product, setProduct] = useState<Product>();
@@ -39,40 +39,29 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
   async function handleRemoveItem(product) {
     if (!product?.productId) throw new Error('cannot find productId');
     try {
-      await deleteItem(product.productId);
-      removeFromCart(product);
+      removeFromCart(productId);
     } catch (err) {
       console.log(err);
       alert('unable to delete the item');
     }
   }
 
-  async function handleIncrement(product) {
+  async function handleIncrement() {
     try {
       quantity += 1;
-      const newItem: Item = {
-        quantity,
-        ...product,
-      };
-      updateCart(newItem);
-      await updateItem(newItem);
+      updateQuantity(productId, quantity);
     } catch (err) {
       console.error('Error updating item in cart:', err);
     }
   }
 
-  async function handleDecrement(product) {
+  async function handleDecrement() {
     try {
       quantity -= 1;
       if (quantity === 0) {
         setIsOpen(true);
       } else {
-        const newItem: Item = {
-          quantity,
-          ...product,
-        };
-        updateCart(newItem);
-        await updateItem(newItem);
+        updateQuantity(productId, quantity);
       }
     } catch (err) {
       console.error('Error updating item in cart:', err);
@@ -156,7 +145,7 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
             <div className="quantity-container row">
               <div
                 className="minus-icon"
-                onClick={() => handleDecrement(product)}>
+                onClick={() => handleDecrement()}>
                 <LuMinus />
               </div>
               <div className="number-container">
@@ -164,7 +153,7 @@ export function ShoppingCartItem({ productId, quantity }: Props) {
               </div>
               <div
                 className="plus-icon"
-                onClick={() => handleIncrement(product)}>
+                onClick={() => handleIncrement()}>
                 <LuPlus />
               </div>
             </div>

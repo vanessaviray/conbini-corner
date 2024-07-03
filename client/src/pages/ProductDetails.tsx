@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Product, Item } from '../lib/data';
-import { insertItem, readProduct, updateItem } from '../lib/read';
+import { readProduct } from '../lib/read';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import '../css/App.css';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
@@ -20,7 +20,7 @@ export function ProductDetails() {
   const [showAlert, setShowAlert] = useState(false);
 
   const { productId } = useParams();
-  const { addToCart, cart, updateCart } = useContext(CartContext);
+  const { addToCart, updateQuantity } = useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,6 +53,8 @@ export function ProductDetails() {
   function handleIncrementQty() {
     const addQty = quantity + 1;
     setQuantity(addQty);
+    updateQuantity(productId, addQty);
+    handleShowAlert();
   }
 
   function handleDecrementQty() {
@@ -61,6 +63,8 @@ export function ProductDetails() {
       subtractQty = 1;
     }
     setQuantity(subtractQty);
+    updateQuantity(productId, subtractQty);
+    handleShowAlert();          
   }
 
   async function handleAddToCart() {
@@ -71,24 +75,8 @@ export function ProductDetails() {
         ...product,
       };
 
-      let itemExists = false;
-
-      for (let i = 0; i < cart.length; i++) {
-        if (productId && +productId === cart[i].productId) {
-          newItem.quantity = cart[i].quantity + quantity;
-          updateCart(newItem);
-          await updateItem(newItem);
-          handleShowAlert();
-          itemExists = true;
-          break;
-        }
-      }
-
-      if (!itemExists) {
-        await insertItem(newItem);
-        addToCart(newItem);
-        handleShowAlert();
-      }
+      addToCart(newItem);
+      handleShowAlert();
 
       setQuantity(1);
     } catch (err) {
