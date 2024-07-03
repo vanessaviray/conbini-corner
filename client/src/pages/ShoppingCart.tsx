@@ -5,12 +5,9 @@ import { useContext } from 'react';
 import { CartContext } from '../components/CartContext';
 import { toDollars } from '../lib/functions';
 import { useNavigate } from 'react-router-dom';
-import { deleteCart } from '../lib/read';
-import { UserContext } from '../components/UserContext';
 
 export function ShoppingCart() {
   const { cart, emptyOutCart } = useContext(CartContext);
-  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   let totalQty = 0;
@@ -22,9 +19,7 @@ export function ShoppingCart() {
   }
 
   async function handleCheckout() {
-    if (!user?.userId) throw new Error('cannot find userId');
     try {
-      await deleteCart(user.userId);
       emptyOutCart();
       navigate('/checkout');
     } catch (err) {
