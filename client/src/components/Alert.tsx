@@ -7,7 +7,7 @@ type AlertProps = {
   duration: number;
 };
 
-const Alert = ({ message, duration }: AlertProps) => {
+export function Alert({ message, duration }: AlertProps) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -28,6 +28,6 @@ const Alert = ({ message, duration }: AlertProps) => {
       <p className="alert-message ml-2">{message}</p>
     </div>
   );
-};
+}
 
 export default Alert;

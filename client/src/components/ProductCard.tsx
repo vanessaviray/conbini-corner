@@ -6,6 +6,7 @@ import { CartContext } from './CartContext.tsx';
 import { insertItem, updateItem } from '../lib/read.ts';
 import '../css/LandingPage.css';
 import Alert from './Alert.tsx';
+import { UserContext } from './UserContext.tsx';
 
 type Props = {
   product: Product;
@@ -16,9 +17,14 @@ export function ProductCard({ product, currentPage }: Props) {
   const [showAlert, setShowAlert] = useState(false);
   const { productId, name, price, defaultImageUrl } = product;
   const { addToCart, cart, updateCart } = useContext(CartContext);
+  const { user, handleGuest } = useContext(UserContext);
   const location = useLocation();
 
   async function handleAddToCart() {
+    if (!user) {
+      handleGuest();
+    }
+
     if (!product) throw new Error('product is undefined');
     try {
       const newItem: Item = {
@@ -51,7 +57,7 @@ export function ProductCard({ product, currentPage }: Props) {
 
   const handleShowAlert = () => {
     setShowAlert(true);
-    setTimeout(() => setShowAlert(false), 3000);
+    setTimeout(() => setShowAlert(false), 1000);
   };
 
   let productCardClass = '';

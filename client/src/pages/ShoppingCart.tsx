@@ -23,10 +23,15 @@ export function ShoppingCart() {
 
   async function handleCheckout() {
     if (!user?.userId) throw new Error('cannot find userId');
+
     try {
-      await deleteCart(user.userId);
-      emptyOutCart();
-      navigate('/checkout');
+      if (cart.length === 0) {
+        alert('There are no items currently in your cart.');
+      } else {
+        await deleteCart(user.userId);
+        emptyOutCart();
+        navigate('/checkout');
+      }
     } catch (err) {
       console.log(err);
     }
@@ -77,7 +82,7 @@ export function ShoppingCart() {
             <div className="order-summary-line mt-5"></div>
             <div className="row flex justify-between pb-8 font-extrabold">
               <p>Order total</p>
-              <p>{toDollars(subtotal + subtotal)}</p>
+              <p>{toDollars(subtotal)}</p>
             </div>
           </div>
           <button onClick={handleCheckout} className="checkout-button">

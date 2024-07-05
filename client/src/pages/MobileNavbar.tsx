@@ -22,16 +22,21 @@ export function MobileNavbar() {
   const [isDrinksOpen, setIsDrinksOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoginDisplay, setIsLoginDisplay] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
 
-  const { handleSignIn, handleSignOut } = useUser();
-  const { user } = useContext(UserContext);
+  const { handleGuest } = useContext(UserContext);
   const { cart } = useContext(CartContext);
+  const { handleSignIn, handleSignOut } = useUser();
   const navigate = useNavigate();
+
+  const snacksPosition = useRef<HTMLDivElement>(null);
+  const pantryPosition = useRef<HTMLDivElement>(null);
+  const drinksPosition = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleResize() {
@@ -47,10 +52,6 @@ export function MobileNavbar() {
       window.removeEventListener('resize', handleResize);
     };
   }, [windowSize]);
-
-  const snacksPosition = useRef<HTMLDivElement>(null);
-  const pantryPosition = useRef<HTMLDivElement>(null);
-  const drinksPosition = useRef<HTMLDivElement>(null);
 
   function handleCategoryClick(event) {
     const buttonValue = event.target.value;
@@ -82,9 +83,7 @@ export function MobileNavbar() {
       }
       const user = await res.json();
       console.log('Registered', user);
-      alert(
-        `Successfully registered ${user.username} as userId ${user.userId}.`
-      );
+      alert(`Successfully registered new account.`);
       setIsLoginDisplay(true);
     } catch (err) {
       alert(`Error registering user: ${err}`);
@@ -110,7 +109,9 @@ export function MobileNavbar() {
       }
       const { user, token } = await res.json();
       handleSignIn(user, token);
+      setIsLoggedIn(true);
       setIsOpen(false);
+      navigate('/');
     } catch (err) {
       alert(`Error signing in: ${err}`);
     } finally {
@@ -120,12 +121,16 @@ export function MobileNavbar() {
 
   function handleLogOut() {
     handleSignOut();
+    setIsLoggedIn(false);
+    handleGuest();
+    navigate('/');
+    alert('You have successfully logged out.');
   }
 
   return (
     <nav>
       <div className="user-logo-cart row">
-        {!user ? (
+        {!isLoggedIn ? (
           <div
             className="ml-1"
             onClick={() => {
