@@ -10,6 +10,7 @@ import { LuPlus } from 'react-icons/lu';
 import { LuMinus } from 'react-icons/lu';
 import { CartContext } from '../components/CartContext';
 import Alert from '../components/Alert';
+import { UserContext } from '../components/UserContext';
 
 export function ProductDetails() {
   const [product, setProduct] = useState<Product>();
@@ -21,7 +22,12 @@ export function ProductDetails() {
 
   const { productId } = useParams();
   const { addToCart, cart, updateCart } = useContext(CartContext);
+  const { user, handleGuest } = useContext(UserContext);
   const navigate = useNavigate();
+
+  if (!user) {
+    handleGuest();
+  }
 
   useEffect(() => {
     async function loadProduct(productId: number) {

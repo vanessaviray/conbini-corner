@@ -22,13 +22,14 @@ export function DesktopNavbar() {
   const [isDrinksOpen, setIsDrinksOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoginDisplay, setIsLoginDisplay] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
 
-  const { user } = useContext(UserContext);
+  const { handleGuest } = useContext(UserContext);
   const { cart } = useContext(CartContext);
   const { handleSignIn, handleSignOut } = useUser();
   const navigate = useNavigate();
@@ -108,7 +109,9 @@ export function DesktopNavbar() {
       }
       const { user, token } = await res.json();
       handleSignIn(user, token);
+      setIsLoggedIn(true);
       setIsOpen(false);
+      navigate('/');
     } catch (err) {
       alert(`Error signing in: ${err}`);
     } finally {
@@ -118,6 +121,9 @@ export function DesktopNavbar() {
 
   function handleLogOut() {
     handleSignOut();
+    setIsLoggedIn(false);
+    handleGuest();
+    navigate('/');
     alert('You have successfully logged out.');
   }
 
@@ -265,14 +271,16 @@ export function DesktopNavbar() {
           <div className="row items-center">
             <SearchBar />
             <div className="row">
-              {!user ? (
+              {!isLoggedIn ? (
                 <div
                   className="ml-10"
                   onClick={() => {
                     setIsOpen(true);
                     setIsLoginDisplay(true);
                   }}>
-                  <RiAccountCircleLine size="1.5em" />
+                  <div className="cursor-pointer">
+                    <RiAccountCircleLine size="1.5em" />
+                  </div>
                 </div>
               ) : (
                 <button

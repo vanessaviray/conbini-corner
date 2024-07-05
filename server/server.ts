@@ -42,6 +42,29 @@ app.use(express.json());
  * This must be the _last_ route, just before errorMiddleware.
  */
 
+app.post('/api/auth/guest-login', async (req, res, next) => {
+  try {
+    const randomNumber = Math.floor(Math.random() * 10000);
+    const emailAddress = `Guest${randomNumber}`;
+    const hashedPassword = `guest${randomNumber}`;
+    const sql = `
+      insert into "users" ("emailAddress", "hashedPassword")
+      values ($1, $2)
+      returning *;
+    `;
+    const result = await db.query(sql, [emailAddress, hashedPassword]);
+    const [user] = result.rows;
+    const payload = {
+      userId: user.userId,
+      emailAddress: user.emailAddress,
+    };
+    const token = jwt.sign(payload, hashKey);
+    res.status(201).send({ user: payload, token });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.post('/api/auth/sign-up', async (req, res, next) => {
   try {
     const { emailAddress, password } = req.body;
@@ -97,7 +120,6 @@ app.post('/api/auth/sign-in', async (req, res, next) => {
     };
 
     const token = jwt.sign(userInfo, hashKey);
-    console.log('userInfo:', userInfo);
     res.status(200).send({ user: userInfo, token });
   } catch (err) {
     next(err);
@@ -232,7 +254,6 @@ app.get('/api/products/:productId', async (req, res, next) => {
 });
 
 app.get('/api/initialCart', authMiddleware, async (req, res, next) => {
-  console.log(req.user?.userId);
   try {
     const sql = `
       select *
@@ -244,7 +265,6 @@ app.get('/api/initialCart', authMiddleware, async (req, res, next) => {
     const params = [req.user?.userId];
     const result = await db.query(sql, params);
     res.json(result.rows);
-    console.log(result.rows);
   } catch (err) {
     next(err);
   }
